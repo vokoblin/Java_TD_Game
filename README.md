@@ -1,2 +1,7 @@
 # Java_TD_Game
-Java Tower Defence game, looking for any suggestions and wish to learn how to write more efficient code. 
+Java Tower Defence game: 
+Any suggestions, tips and triks or help are very welcome!
+
+During this project wish to learn: 
+1. How to write more efficient code.
+2. How to use GitHub.
