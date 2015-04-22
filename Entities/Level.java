@@ -5,8 +5,7 @@
  */
 package Entities;
 
-import Gfx.Screen;
-import java.awt.Graphics;
+import static Gfx.Artist.*;
 
 /**
  *
@@ -14,40 +13,55 @@ import java.awt.Graphics;
  */
 public class Level 
 {
-    public int levelWidth = 80;
-    public int levelHeight = 60;
-    public int blockSize = 8;
+    public int mapWidth = 10;
+    public int mapHeight = 7;
+    public int blockSize = 64;
     
-    public Block[][] block;
+    public Tile[][] map;
     
     public Level()
     {
-        define();
-    }
-    
-    public void define()
-    {
-        block = new Block[levelHeight][levelWidth];
-        
-        for(int y=0; y<block.length; y++)
+       map = new Tile[mapWidth][mapHeight];
+        for(int i = 0; i < map.length; i++)
         {
-            for(int x=0; x<block[0].length; x++)
+            for(int j = 0; j < map[i].length; j++)
             {
-                block[y][x] = new Block((Screen.mWidth / 2)-(levelWidth * blockSize / 2)+(x * blockSize), (Screen.mHeight / 2)-(levelHeight * blockSize / 2)+(y * blockSize), blockSize, blockSize, Entities.groundGrass, Entities.airAir);
+                map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Grass);
             }
         }
     }
     
-    public void draw(Graphics g)
+    public Level(int[][] newMap)
     {
-        for(int y = 0; y < block.length; y++)
+        map = new Tile[mapWidth][mapHeight];
+        for(int i = 0; i < map.length; i++)
         {
-            for(int x = 0; x < block[0].length; x++)
+            for(int j = 0; j < map[i].length; j++)
             {
-                block[y][x].draw(g);
+                if(newMap[j][i] == 0)
+                {
+                    map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Grass);
+                }
+                else
+                {
+                    map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Dirt);
+                }
             }
         }
     }
+    
+    public void draw()
+    {
+        for(int i = 0; i < map.length; i++)
+        {
+            for(int j = 0; j < map[i].length; j++)
+            {
+                Tile t = map[i][j];
+                map[i][j].draw();
+            }
+        }
+    }
+    
 
     public void physics() {
         

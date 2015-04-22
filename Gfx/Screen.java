@@ -11,13 +11,14 @@ package Gfx;
  */
 
 import Entities.Level;
+import java.awt.Font;
 
-import java.awt.Graphics;
-import javax.swing.JPanel;
+import org.lwjgl.opengl.Display;
+import static org.lwjgl.opengl.GL11.*;
 
-public class Screen extends JPanel
+public class Screen
 {
-    private int fps;
+    Font font = new Font("Times New Roman", Font.BOLD, 24);
     
     public static boolean isFirst = true;
     
@@ -26,19 +27,33 @@ public class Screen extends JPanel
     public static int mWidth;
     public static int mHeight;
     
+    public int levelWidth = 30;
+    public int levelHeight = 30;
+    public int blockSize = 32;
+    
+    int[][] map = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 1, 0, 1, 1, 1, 1, 0, 0, 0},
+        {0, 1, 0, 1, 0, 0, 1, 0, 0, 0},
+        {0, 1, 1, 1, 0, 0, 1, 1, 1, 1},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    
     public Screen()
     {
+        level = new Level(map);
         //setBackground(Color.BLACK);
-        System.out.println("hello :D");
+        //drawScene();
     }
     
-    @Override
-    public void paintComponent(Graphics g)
+    public void drawScene()
     {
         if(isFirst)
             {
-                mWidth = getWidth();
-                mHeight = getHeight();
+                mWidth = Display.getWidth();
+                mHeight = Display.getHeight();
                 
                 //if running for the first time than define everything
                 define();
@@ -46,23 +61,30 @@ public class Screen extends JPanel
                 //ser isFirst to false;
                 isFirst=false;
             }
-        g.clearRect(0, 0, getWidth(), getHeight());
-        
-        g.drawString("FPS : "+fps, 10, 10);
-        level.draw(g);
+        //g.clearRect(0, 0, getWidth(), getHeight());
+        //drawQuad(150, 150, blockSize, blockSize);
+        //drawLine(10, 10, 100, 100);
+        level.draw();
+        //clean();
     }
 
-    public void Rander() {
+    public void clean()
+    {
+        // Clear The Screen And The Depth Buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+        // R,G,B,A Set The Color To Blue One Time Only
+        glColor3f(0.5f, 0.5f, 1.0f); 
+    }
+    
+    public void Rander() 
+    {
         
     }
 
-    private void define() {
-        level= new Level();
-    }
-    
-    
-    public void setFps(int fps) {
-        this.fps = fps;
+    private void define() 
+    {
+        //level = new Level();
     }
     
 }

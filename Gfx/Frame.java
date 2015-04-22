@@ -13,11 +13,13 @@ package Gfx;
 
 import Controllers.KeyHandler;
 import Main.Game;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.JFrame;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import static org.lwjgl.opengl.GL11.*;
 
-public class Frame extends JFrame 
+
+public class Frame
 {
     private boolean isInFullscreen = false;
     
@@ -26,43 +28,53 @@ public class Frame extends JFrame
     
     //initialising default variables.
     public static String title = "TD Alpha 0.1";
-    public static Dimension size = new Dimension(800, 600);
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
     
     public Frame(Game game)
     {
         this.game = game;
         //setting frame properties.
-        setTitle(title);
-        setSize(size);
-        setResizable(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        try {
+            Display.setTitle(title);
+            Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+            Display.create();
+        } catch (LWJGLException ex) {
+            ex.printStackTrace();
+        }
+        
+        //Display.setResizable(true);
         
         init();
     }
     
     void init()
     {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
+        glMatrixMode(GL_MODELVIEW);
+        glEnable(GL_TEXTURE_2D);
         //setting Grid layout
-        setLayout(new GridLayout(1, 1, 0, 0));
+        //Display.setLayout(new GridLayout(1, 1, 0, 0));
         
         //Creating object of screen (JPanel)
         screen = new Screen();
         
         //Adding the panel to the frame and seting visible
-        add(screen);
-        addKeyListener(new KeyHandler(this));
-        setVisible(true);   
+        //Display.add(screen);
+        //Display.addKeyListener(new KeyHandler(this));
+        //Display.setVisible(true);   
     }
     
-    public void setIsInFullscreen(){
+    public void setIsInFullscreen()
+    {
         if(!isInFullscreen){
             isInFullscreen = true;
             //this.setUndecorated(true);
-            this.setExtendedState(MAXIMIZED_BOTH);
             
         }else{
-            this.setSize(size);
             //this.setUndecorated(false);
             isInFullscreen = false;
         }
