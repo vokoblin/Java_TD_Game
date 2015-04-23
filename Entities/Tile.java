@@ -39,11 +39,21 @@ public class Tile
     public float getX() {
         return x;
     }
-
+    
+    public int getXPos()
+    {
+        return (int) x / 64;
+    }
+    
     public void setX(float x) {
         this.x = x;
     }
-
+    
+    public int getYPos()
+    {
+        return (int) y / 64;
+    }
+    
     public float getY() {
         return y;
     }

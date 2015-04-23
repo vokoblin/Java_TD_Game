@@ -10,7 +10,11 @@ package Gfx;
  * @author Vovaxs
  */
 
+import AI.Wave;
+import Entities.Enemy;
 import Entities.Level;
+import Entities.Player;
+import static Gfx.Artist.quickLoadTexture;
 import java.awt.Font;
 
 import org.lwjgl.opengl.Display;
@@ -31,13 +35,18 @@ public class Screen
     public int levelHeight = 30;
     public int blockSize = 32;
     
+    ///tests:
+    private Enemy enemy;
+    private Wave wave;
+    private Player player;
+    
     int[][] map = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 1, 0, 1, 1, 1, 1, 0, 0, 0},
-        {0, 1, 0, 1, 0, 0, 1, 0, 0, 0},
-        {0, 1, 1, 1, 0, 0, 1, 1, 1, 1},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 1, 0, 0, 1, 1, 1, 0, 0, 0},
+        {0, 1, 0, 0, 1, 2, 1, 1, 1, 0},
+        {0, 1, 0, 0, 1, 0, 0, 0, 1, 0},
+        {0, 1, 1, 1, 0, 0, 1, 1, 1, 0},
+        {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
     
@@ -46,26 +55,37 @@ public class Screen
         level = new Level(map);
         //setBackground(Color.BLACK);
         //drawScene();
+        enemy = new Enemy(quickLoadTexture("enemy"), level.getTile(1, 1), level, 32, 32, 2, 6);
+        wave = new Wave(10, enemy);
+        player = new Player(level);
     }
     
     public void drawScene()
     {
         if(isFirst)
-            {
-                mWidth = Display.getWidth();
-                mHeight = Display.getHeight();
+        {
+            mWidth = Display.getWidth();
+            mHeight = Display.getHeight();
                 
-                //if running for the first time than define everything
-                define();
+            //if running for the first time than define everything
+            define();
                 
-                //ser isFirst to false;
-                isFirst=false;
-            }
+            //ser isFirst to false;
+            isFirst=false;
+        }
         //g.clearRect(0, 0, getWidth(), getHeight());
         //drawQuad(150, 150, blockSize, blockSize);
         //drawLine(10, 10, 100, 100);
-        level.draw();
+        //enemy.update();
         //clean();
+        
+        level.draw();
+        wave.update();
+        player.update();
+        //enemy.draw();
+        //wave.update();
+        
+        
     }
 
     public void clean()

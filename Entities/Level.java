@@ -5,7 +5,7 @@
  */
 package Entities;
 
-import static Gfx.Artist.*;
+import Gfx.Frame;
 
 /**
  *
@@ -16,11 +16,15 @@ public class Level
     public int mapWidth = 10;
     public int mapHeight = 7;
     public int blockSize = 64;
+    public int frameWidth;
+    public int frameHeight;
     
     public Tile[][] map;
     
     public Level()
     {
+       frameWidth = Frame.getWIDTH();
+       frameHeight = Frame.getHEIGHT();
        map = new Tile[mapWidth][mapHeight];
         for(int i = 0; i < map.length; i++)
         {
@@ -33,6 +37,8 @@ public class Level
     
     public Level(int[][] newMap)
     {
+        frameWidth = Frame.getWIDTH();
+        frameHeight = Frame.getHEIGHT();
         map = new Tile[mapWidth][mapHeight];
         for(int i = 0; i < map.length; i++)
         {
@@ -40,24 +46,42 @@ public class Level
             {
                 if(newMap[j][i] == 0)
                 {
-                    map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Grass);
+                    
                 }
                 else
                 {
                     map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Dirt);
                 }
+                switch (newMap[j][i])
+                {
+                    case 0:
+                        map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Grass);
+                        break;
+                    case 1:
+                        map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Dirt);
+                        break;
+                    case 2:
+                        map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize, blockSize, TileType.Water);
+                        break;
+                }
             }
         }
     }
     
+    public void setTile(int xCoord, int yCoord, TileType type)
+    {
+        map[xCoord][yCoord] = new Tile(xCoord * blockSize, yCoord * blockSize, blockSize, blockSize, type);
+    }
+    
+    public Tile getTile(int xPos, int yPos){
+        return map[xPos][yPos];
+    }
+    
     public void draw()
     {
-        for(int i = 0; i < map.length; i++)
-        {
-            for(int j = 0; j < map[i].length; j++)
-            {
-                Tile t = map[i][j];
-                map[i][j].draw();
+        for (Tile[] map1 : map) {
+            for (Tile t : map1) {
+                t.draw();
             }
         }
     }

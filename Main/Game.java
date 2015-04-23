@@ -2,7 +2,6 @@ package Main;
 
 import Gfx.Frame;
 import Gfx.Screen;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 
 /*
@@ -20,19 +19,8 @@ public final class Game implements Runnable
 {
     /** main game status flag */
     boolean isRunning = false;
-    
-    /** time at last frame */
-    long lastFrame;
      
-    /** frames per second */
-    int fps;
-    
-    /** last fps time */
-    long lastFPS;
-
-    /** position of quad */
-    float x = 400, y = 300;
-    
+ 
     public Game()
     {
         run();
@@ -46,20 +34,17 @@ public final class Game implements Runnable
         /** Game start */
         isRunning = true;
         
-        getDelta(); // call once before loop to initialise lastFrame
-        lastFPS = getTime(); // call before loop to initialise fps timer
         while(isRunning && !Display.isCloseRequested()){
-            int delta = getDelta();
             if(!Screen.isFirst)
             {
                // Frame.screen.level.physics();
             }
-            
+            Clock.update();
             
             frame.screen.drawScene();
             //frame.screen.level.draw();
             
-            updateFPS(); // update FPS Counter
+            Display.setTitle("Delta: " + Clock.Delta());
             Display.update();
             Display.sync(60);
         }
@@ -83,31 +68,8 @@ public final class Game implements Runnable
             isRunning = false;
         }
     }
-    
-    ///////////////////Timer///////////////////
-    public long getTime() 
-    {
-        return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-    }
-    
-     public int getDelta() 
-     {
-        long time = getTime();
-        int delta = (int) (time - lastFrame);
-        lastFrame = time;
-      
-        return delta;
-    }
      
     ///////////////////FPS///////////////////
      
-    public void updateFPS() 
-    {
-        if (getTime() - lastFPS > 1000) {
-            Display.setTitle("FPS: " + fps);
-            fps = 0;
-            lastFPS += 1000;
-        }
-        fps++;
-    }
+
 }

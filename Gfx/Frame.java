@@ -56,6 +56,8 @@ public class Frame
         glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
         glMatrixMode(GL_MODELVIEW);
         glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         //setting Grid layout
         //Display.setLayout(new GridLayout(1, 1, 0, 0));
         
@@ -79,5 +81,12 @@ public class Frame
             isInFullscreen = false;
         }
     }
-    
+
+    public static int getWIDTH() {
+        return WIDTH;
+    }
+
+    public static int getHEIGHT() {
+        return HEIGHT;
+    }
 }
