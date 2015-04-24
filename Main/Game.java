@@ -15,61 +15,53 @@ import org.lwjgl.opengl.Display;
  * @author Vovaxs
  */
 
-public final class Game implements Runnable
-{
-    /** main game status flag */
-    boolean isRunning = false;
-     
- 
-    public Game()
-    {
-        run();
-    }
-    
-    @Override
-    public void run()
-    {
-        Frame frame = new Frame(this);
-        
-        /** Game start */
-        isRunning = true;
-        
-        while(isRunning && !Display.isCloseRequested()){
-            if(!Screen.isFirst)
-            {
-               // Frame.screen.level.physics();
-            }
-            Clock.update();
-            
-            frame.screen.drawScene();
-            //frame.screen.level.draw();
-            
-            Display.setTitle("FPS: " + Clock.FPS());
-            Display.update();
-            Display.sync(60);
-        }
-        
-        Display.destroy();
-        System.exit(0);
-        
-    }
-    
-    public static void main(String args[]) 
-    {
-        
-        Game game = new Game();
-        
-    }
-    
-    /** Stopping that main game loop */
-    public void stopGame()
-    {
-        if(isRunning){
-            isRunning = false;
-        }
-    }
-     
-    ///////////////////FPS///////////////////
-     
+public final class Game implements Runnable {
+	/** main game status flag */
+	boolean isRunning = false;
+
+	public Game() {
+		run();
+	}
+
+	@Override
+	public void run() {
+		Frame frame = new Frame(this);
+
+		/** Game start */
+		isRunning = true;
+
+		while (isRunning && !Display.isCloseRequested()) {
+			if (!Screen.isFirst) {
+				// Frame.screen.level.physics();
+			}
+			Clock.update();
+
+			frame.screen.drawScene();
+			// frame.screen.level.draw();
+
+			Display.setTitle("FPS: " + Clock.FPS());
+			Display.update();
+			Display.sync(60);
+		}
+
+		Display.destroy();
+		System.exit(0);
+
+	}
+
+	public static void main(String args[]) {
+
+		Game game = new Game();
+
+	}
+
+	/** Stopping that main game loop */
+	public void stopGame() {
+		if (isRunning) {
+			isRunning = false;
+		}
+	}
+
+	// /////////////////FPS///////////////////
 
 }

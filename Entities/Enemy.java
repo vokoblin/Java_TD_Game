@@ -27,6 +27,7 @@ public class Enemy {
     private Texture texture;
     private Tile startTile;
     private boolean isFirstUpdate = true;
+    private boolean isAlive = true;
     
     private ArrayList<Checkpoint> checkpoints;
     private int[] directions;
@@ -66,7 +67,7 @@ public class Enemy {
             {
             	if(currentCheckpoint >= checkpoints.size() - 1)
             	{
-            		System.out.println("-Life");
+            		die();
             	}
             	else
             	{
@@ -224,6 +225,11 @@ public class Enemy {
     public void draw(){
         drawRectTexture(texture, x, y, width, height);
     }
+    
+    private void die()
+    {
+    	isAlive = false;
+    }
 
     public float getX() {
         return x;
@@ -293,4 +299,10 @@ public class Enemy {
     {
         return level;
     }
+	public boolean isAlive() {
+		return isAlive;
+	}
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+	}
 }
