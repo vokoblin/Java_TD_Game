@@ -44,7 +44,7 @@ public final class Game implements Runnable
             frame.screen.drawScene();
             //frame.screen.level.draw();
             
-            Display.setTitle("Delta: " + Clock.Delta());
+            Display.setTitle("FPS: " + Clock.FPS());
             Display.update();
             Display.sync(60);
         }

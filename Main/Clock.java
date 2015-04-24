@@ -23,13 +23,14 @@ public class Clock {
     ///FPS///
     
     /** frames per second */
-    private int fps;
+    private static int fps = 0;
+    private static int fpsmodifier = 0;
     
     /** last fps time */
-    private long lastFPS;
+    private static long lastFPS;
     
     /** first update boolean */
-    private boolean  isFistFPSUpdate = true;
+    private static boolean  isFirstFPSUpdate = true;
 
     
     
@@ -43,7 +44,14 @@ public class Clock {
         long currentTime = getTime();
         int delta = (int) (currentTime - lastFrame);
         lastFrame = getTime();
-        return delta + 0.01f;
+        if (delta * 0.01f > 0.5f)
+        {
+        	return 0.5f;
+        }
+        else
+        {
+        	return delta + 0.01f;
+        }
     }
     
     public static float Delta()
@@ -68,6 +76,7 @@ public class Clock {
     {
         d = getDelta();
         totalTime += d;
+        updateFPS();
     }
     
     public static void changeMultiplier(int change)
@@ -90,27 +99,35 @@ public class Clock {
             paused = true;
     }
     
-    /*
-    public int getFPS() 
+    
+    public static void updateFPS() 
     {
-        if(isFistFPSUpdate)
+        if(isFirstFPSUpdate)
         {
             defineFPS();
+            isFirstFPSUpdate = false;
         }
-        if (getTime() - lastFPS > 1000) 
+        else if (getTime() - lastFPS > 1000) 
         {
-            setFps(fps);
-            fps = 0;
+            fps = fpsmodifier;
+            fpsmodifier = 0;
             lastFPS += 1000;
         }
-        fps++;
-        return getFps();
+        fpsmodifier++;
     }
-    */
+    
+    public static int FPS()
+    {
+    	//
+    	 if(paused)
+             return fps;
+         else
+             return fps;
+    }
+    
 
-    private void defineFPS() {
+    private static void defineFPS() {
         getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
     }
-    
 }   
