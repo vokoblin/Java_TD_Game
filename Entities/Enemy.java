@@ -64,7 +64,14 @@ public class Enemy {
         {
             if(checkpointReached())
             {
-                currentCheckpoint++;
+            	if(currentCheckpoint >= checkpoints.size() - 1)
+            	{
+            		System.out.println("-Life");
+            	}
+            	else
+            	{
+            		currentCheckpoint++;	
+            	}
             }
             else
             {
@@ -101,19 +108,17 @@ public class Enemy {
         
         int counter = 0;
         boolean end = false;
-        while (!end || counter == 20)
+        while (!end && counter < 20)
         {
             int [] currentDirection = detectPath(checkpoints.get(counter).getTile());
             //check all map for checkpoints or until counter = 20
             if (currentDirection[0] == 2)
             {
                 end = true;
-                System.out.println("FALSE");
             }
             else{
                 checkpoints.add(detectCheckpoint(checkpoints.get(counter).getTile(),
                         directions = detectPath(checkpoints.get(counter).getTile())));
-                System.out.println("TRUE");
             }
             counter++;
         }
@@ -130,7 +135,9 @@ public class Enemy {
         while (!detected)
         {
             //check the path along the direction that enemy is heading
-            if (t.getType() != 
+            if (t.getXPos() + dir[0] * counter == level.getMapWidth() ||
+            		t.getYPos() + dir[1] * counter == level.getMapHeight() ||
+            		t.getType() != 
                     level.getTile(t.getXPos() + dir[0] * counter,
                         t.getYPos() + dir[1] * counter).getType())
             {
@@ -142,6 +149,7 @@ public class Enemy {
                 next = level.getTile(t.getXPos() + dir[0] * counter,
                         t.getYPos() + dir[1] * counter);
             }
+            counter++;
         }
         //adding to check point
         c = new Checkpoint(next, dir[0], dir[1]);
@@ -164,42 +172,42 @@ public class Enemy {
         Tile downleft = level.getTile(t.getXPos() - 1, t.getYPos() + 1);
         
         //find path
-        if (t.getType() == up.getType())
+        if (t.getType() == up.getType() && directions[1] != 1)
         {
             dir[0] = 0;
             dir[1] = -1;
         }
-        else if (t.getType() == right.getType())
+        else if (t.getType() == right.getType() && directions[0] != -1)
         {
             dir[0] = 1;
             dir[1] = 0;
         }
-        else if (t.getType() == down.getType())
+        else if (t.getType() == down.getType() && directions[1] != -1)
         {
             dir[0] = 0;
             dir[1] = 1;
         }
-        else if (t.getType() == left.getType())
+        else if (t.getType() == left.getType() && directions[0] != 1)
         {
             dir[0] = -1;
             dir[1] = 0;
         }
-        else if (t.getType() == upleft.getType())
+        else if (t.getType() == upleft.getType() && directions[0] != 1  && directions[1] != 1)
         {
             dir[0] = -1;
             dir[1] = -1;
         }
-        else if (t.getType() == upright.getType())
+        else if (t.getType() == upright.getType() && directions[0] != -1  && directions[1] != 1)
         {
             dir[0] = 1;
             dir[1] = -1;
         }
-        else if (t.getType() == downright.getType())
+        else if (t.getType() == downright.getType() && directions[0] != -1  && directions[1] != -1)
         {
             dir[0] = 1;
             dir[1] = 1;
         }
-        else if (t.getType() == downleft.getType())
+        else if (t.getType() == downleft.getType() && directions[0] != 1  && directions[1] != -1)
         {
             dir[0] = -1;
             dir[1] = 1;
@@ -208,7 +216,6 @@ public class Enemy {
         {
             dir[0] = 2;
             dir[1] = 2;
-            System.out.println("NO PATH FOUND.");
         }
         
         return dir;

@@ -74,7 +74,14 @@ public class Level
     }
     
     public Tile getTile(int xPos, int yPos){
-        return map[xPos][yPos];
+        if (xPos < mapWidth && yPos < mapHeight && xPos > -1 && yPos > -1) 
+        {
+        	return map[xPos][yPos];
+        }
+        else
+        {
+        	return new Tile(0, 0, 0, 0, TileType.Void);
+        }
     }
     
     public void draw()
@@ -90,4 +97,52 @@ public class Level
     public void physics() {
         
     }
+
+	public int getMapWidth() {
+		return mapWidth;
+	}
+
+	public void setMapWidth(int mapWidth) {
+		this.mapWidth = mapWidth;
+	}
+
+	public int getMapHeight() {
+		return mapHeight;
+	}
+
+	public void setMapHeight(int mapHeight) {
+		this.mapHeight = mapHeight;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+
+	public int getFrameWidth() {
+		return frameWidth;
+	}
+
+	public void setFrameWidth(int frameWidth) {
+		this.frameWidth = frameWidth;
+	}
+
+	public int getFrameHeight() {
+		return frameHeight;
+	}
+
+	public void setFrameHeight(int frameHeight) {
+		this.frameHeight = frameHeight;
+	}
+
+	public Tile[][] getMap() {
+		return map;
+	}
+
+	public void setMap(Tile[][] map) {
+		this.map = map;
+	}
 }

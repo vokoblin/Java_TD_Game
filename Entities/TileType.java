@@ -11,7 +11,7 @@ package Entities;
  */
 public enum TileType {
     
-    Grass("grass", true), Dirt("dirt", false), Water("water", false);
+    Void("water", false), Grass("grass", true), Dirt("dirt", false), Water("water", false);
     
     String textureName;
     boolean buildable;

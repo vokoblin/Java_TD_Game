@@ -41,12 +41,12 @@ public class Screen
     private Player player;
     
     int[][] map = {
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 1, 0, 0, 1, 1, 1, 0, 0, 0},
-        {0, 1, 0, 0, 1, 2, 1, 1, 1, 0},
-        {0, 1, 0, 0, 1, 0, 0, 0, 1, 0},
-        {0, 1, 1, 1, 0, 0, 1, 1, 1, 0},
-        {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+        {1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 1, 0, 1, 1, 1, 0, 1, 1, 1},
+        {0, 1, 0, 1, 0, 1, 0, 1, 0, 0},
+        {0, 1, 0, 1, 0, 1, 0, 1, 0, 0},
+        {0, 1, 0, 1, 0, 1, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0, 1, 1, 1, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
     
@@ -55,7 +55,7 @@ public class Screen
         level = new Level(map);
         //setBackground(Color.BLACK);
         //drawScene();
-        enemy = new Enemy(quickLoadTexture("enemy"), level.getTile(1, 1), level, 32, 32, 2, 6);
+        enemy = new Enemy(quickLoadTexture("enemy"), level.getTile(0, 0), level, 32, 32, 2, 6);
         wave = new Wave(10, enemy);
         player = new Player(level);
     }
