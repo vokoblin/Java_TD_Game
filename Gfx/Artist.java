@@ -66,7 +66,7 @@ public class Artist {
 
 	public static Texture quickLoadTexture(String name) {
 		Texture tex = null;
-		tex = loadTexture("" + name + ".png", "PNG");
+		tex = loadTexture("res/" + name + ".png", "PNG");
 		return tex;
 	}
 }
