@@ -56,7 +56,9 @@ public class Screen {
 				level, 32, 32, 2, 6);
 		wave = new Wave(10, enemy);
 		player = new Player(level);
-		tower = new Tower(quickLoadTexture("cannonBase"), level.getTile(4, 4), 10, 5, 5);
+		tower = new Tower(quickLoadTexture("cannonBase"),
+				quickLoadTexture("cannonGun"), level.getTile(4, 4), 10, 5, 20);
+		tower.setAttSpeed(35);
 	}
 
 	public void drawScene() {
@@ -79,7 +81,7 @@ public class Screen {
 		level.draw();
 		wave.update();
 		player.update();
-		tower.draw();
+		tower.update();
 
 		// enemy.draw();
 		// wave.update();
