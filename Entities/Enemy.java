@@ -193,22 +193,22 @@ public class Enemy {
             dir[0] = -1;
             dir[1] = 0;
         }
-        else if (t.getType() == upleft.getType() && directions[0] != 1  && directions[1] != 1)
+        else if (t.getType() == upleft.getType() && (directions[0] != 1  || directions[1] != 1))
         {
             dir[0] = -1;
             dir[1] = -1;
         }
-        else if (t.getType() == upright.getType() && directions[0] != -1  && directions[1] != 1)
+        else if (t.getType() == upright.getType() && (directions[0] != -1  || directions[1] != 1))
         {
             dir[0] = 1;
             dir[1] = -1;
         }
-        else if (t.getType() == downright.getType() && directions[0] != -1  && directions[1] != -1)
+        else if (t.getType() == downright.getType() && (directions[0] != -1  || directions[1] != -1))
         {
             dir[0] = 1;
             dir[1] = 1;
         }
-        else if (t.getType() == downleft.getType() && directions[0] != 1  && directions[1] != -1)
+        else if (t.getType() == downleft.getType() && (directions[0] != 1  || directions[1] != -1))
         {
             dir[0] = -1;
             dir[1] = 1;

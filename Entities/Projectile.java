@@ -6,14 +6,16 @@ import static Gfx.Artist.*;
 
 public class Projectile {
 
+	private Level level;
 	private Texture texture;
 	private float x;
 	private float y;
 	private float speed;
 	private float damage;
 
-	public Projectile(Texture texture, float x, float y, float speed,
+	public Projectile(Level level, Texture texture, float x, float y, float speed,
 			float damage) {
+		this.level = level;
 		this.texture = texture;
 		this.x = x;
 		this.y = y;
@@ -23,7 +25,9 @@ public class Projectile {
 
 	public void update() {
 		x += Delta() * speed;
-		draw();
+		if(x < (level.mapWidth -1) * level.blockSize && x > 0 && y < (level.mapHeight -1) * level.blockSize && y > 0){
+			draw();
+		}
 	}
 
 	private void draw() {

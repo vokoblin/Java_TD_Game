@@ -9,6 +9,7 @@ import static Main.Clock.*;
 
 public class Tower {
 
+	private Level level;
 	private float x;
 	private float y;
 	private float width;
@@ -23,7 +24,8 @@ public class Tower {
 	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
 
-	public Tower(Texture textureBase, Texture textureTop, Tile startTile, float damage, float range, float attSpeed) {
+	public Tower(Level level, Texture textureBase, Texture textureTop, Tile startTile, float damage, float range, float attSpeed) {
+		this.level = level;
 		this.textureBase = textureBase;
 		this.textureTop = textureTop;
 		this.startTile = startTile;
@@ -55,7 +57,7 @@ public class Tower {
 
 	private void shoot() {
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(quickLoadTexture("bullet"), x + startTile.getWidth(), y + startTile.getHeight(), attSpeed, damage));
+		projectiles.add(new Projectile(level, quickLoadTexture("bullet"), x + startTile.getWidth(), y + startTile.getHeight(), attSpeed, damage));
 	}
 
 	public void draw() {
