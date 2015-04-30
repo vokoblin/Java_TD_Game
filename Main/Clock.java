@@ -18,7 +18,7 @@ public class Clock {
 	public static long totalTime;
 
 	public static float d = 0;
-	public static float multiplier = 0.01f;
+	public static float multiplier = 0.001f;
 
 	// /FPS///
 
@@ -40,10 +40,10 @@ public class Clock {
 		long currentTime = getTime();
 		int delta = (int) (currentTime - lastFrame);
 		lastFrame = getTime();
-		if (delta * 0.01f > 0.5f) {
-			return 0.5f;
+		if (delta * 0.001f > 0.05f) {
+			return 0.05f;
 		} else {
-			return delta + 0.01f;
+			return delta + 0.001f;
 		}
 	}
 

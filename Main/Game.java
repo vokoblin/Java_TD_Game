@@ -25,24 +25,23 @@ public final class Game implements Runnable {
 
 	@Override
 	public void run() {
-		Frame frame = new Frame(this);
+            Frame frame = new Frame(this);
 
-		/** Game start */
-		isRunning = true;
-
-		while (isRunning && !Display.isCloseRequested()) {
-			if (!Screen.isFirst) {
-				// Frame.screen.level.physics();
-			}
-			Clock.update();
-
-			frame.screen.drawScene();
-			// frame.screen.level.draw();
-
-			Display.setTitle("FPS: " + Clock.FPS());
-			Display.update();
-			Display.sync(60);
+            /** Game start */
+            isRunning = true;
+            while (isRunning && !Display.isCloseRequested()) {
+                if (!Screen.isFirst) {
+                    // Frame.screen.level.physics();
 		}
+		Clock.update();
+
+		frame.screen.drawScene();
+		// frame.screen.level.draw();
+
+		Display.setTitle("FPS: " + Clock.FPS());
+		Display.update();
+		Display.sync(60);
+            }
 
 		Display.destroy();
 		System.exit(0);

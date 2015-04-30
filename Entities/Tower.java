@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
 
 import static Gfx.Artist.*;
+import Gfx.Screen;
 import static Main.Clock.*;
 
 public class Tower {
 
-	private Level level;
+	private Screen screen;
+        private Level level;
 	private float x;
 	private float y;
 	private float width;
@@ -24,8 +26,9 @@ public class Tower {
 	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
 
-	public Tower(Level level, Texture textureBase, Texture textureTop, Tile startTile, float damage, float range, float attSpeed) {
-		this.level = level;
+	public Tower(Screen screen, Texture textureBase, Texture textureTop, Tile startTile, float damage, float range, float attSpeed) {
+		this.screen = screen;
+                this.level = screen.level;
 		this.textureBase = textureBase;
 		this.textureTop = textureTop;
 		this.startTile = startTile;
@@ -57,12 +60,12 @@ public class Tower {
 
 	private void shoot() {
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(level, quickLoadTexture("bullet"), x + startTile.getWidth(), y + startTile.getHeight(), attSpeed, damage));
+		projectiles.add(new Projectile(level, quickLoadTexture("bullet"), x + startTile.getWidth(), y + startTile.getHeight(), screen.enemy.getSpeed()*5, damage));
 	}
 
 	public void draw() {
 		drawRectTexture(textureBase, x, y, width, height);
-		drawRectTexture(textureTop, x, y, width, height);
+		drawRotatableRectTexture(textureTop, x, y, width, height, -45);
 	}
 
 	public float getX() {
@@ -119,6 +122,10 @@ public class Tower {
 
 	public void setAttSpeed(float attSpeed) {
 		this.attSpeed = attSpeed;
+	}
+        
+        public void addAttSpeed(float attSpeed) {
+		this.attSpeed += attSpeed;
 	}
 
 	public Texture getTextureBase() {

@@ -10,7 +10,7 @@ package Gfx;
  * @author Vovaxs
  */
 
-import AI.Wave;
+import AI.WaveManager;
 import Entities.Enemy;
 import Entities.Level;
 import Entities.Player;
@@ -38,8 +38,8 @@ public class Screen {
 	public int blockSize = 32;
 
 	// /tests:
-	private Enemy enemy;
-	private Wave wave;
+	public Enemy enemy;
+	private WaveManager waveManager;
 	private Player player;
 	private Tower tower;
 
@@ -53,15 +53,15 @@ public class Screen {
 		// setBackground(Color.BLACK);
 		// drawScene();
 		enemy = new Enemy(quickLoadTexture("enemy"), level.getTile(0, 0),
-				level, 32, 32, 2, 6);
-		wave = new Wave(10, enemy);
+				level, 32, 32, 2, 50);
+		waveManager = new WaveManager(enemy, 2, 2);
 		player = new Player(level);
-		tower = new Tower(level, quickLoadTexture("cannonBase"),
-				quickLoadTexture("cannonGun"), level.getTile(4, 4), 10, 5, 20);
-		tower.setAttSpeed(35);
+		tower = new Tower(this, quickLoadTexture("cannonBase"),
+				quickLoadTexture("cannonGun"), level.getTile(4, 4), 10, 5, 0.5f);
+		tower.addAttSpeed(0.2f);
 	}
 
-	public void drawScene() {
+	public void drawScene() {        
 		if (isFirst) {
 			mWidth = Display.getWidth();
 			mHeight = Display.getHeight();
@@ -79,7 +79,7 @@ public class Screen {
 		// clean();
 
 		level.draw();
-		wave.update();
+		waveManager.update();
 		player.update();
 		tower.update();
 
