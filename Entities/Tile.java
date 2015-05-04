@@ -20,8 +20,9 @@ public class Tile
     private float height;
     private Texture texture;
     private TileType type;
+    private float SCALE;
     
-    public Tile(int x, int y, int width, int height, TileType type)
+    public Tile(int x, int y, int width, int height, TileType type, float SCALE)
     {
         this.x = x;
         this.y = y;
@@ -29,11 +30,12 @@ public class Tile
         this.height = height;
         this.type = type;
         this.texture = quickLoadTexture(type.textureName);
+        this.SCALE = SCALE;
     }
     
     public void draw()
     {
-       drawRectTexture(texture, x, y, width, height);
+       drawRectTexture(texture, x * SCALE, y * SCALE, width * SCALE, height * SCALE);
     }
     
     public float getX() {

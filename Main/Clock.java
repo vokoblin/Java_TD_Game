@@ -68,7 +68,7 @@ public class Clock {
 		updateFPS();
 	}
 
-	public static void changeMultiplier(int change) {
+	public static void changeMultiplier(float change) {
 		if (multiplier + change < -1 && multiplier > 7) {
 
 		} else {

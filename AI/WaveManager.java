@@ -46,4 +46,8 @@ public class WaveManager {
         currentWave = new Wave(enemyType, timeBetweenEnemies, enemiesPerWave + waveNumber);
         System.out.println("Wave #"+waveNumber);
     }
+    
+    public Wave getCurrentWave(){
+        return currentWave;
+    }
 }

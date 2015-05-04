@@ -16,6 +16,7 @@ public class Tower {
 	private float y;
 	private float width;
 	private float height;
+        private float angle;
 	private float damage;
 	private float range;
 	private float timeSinceLastShot;
@@ -25,8 +26,10 @@ public class Tower {
 	private Texture textureTop;
 	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
+        private ArrayList<Enemy> enemies;
+        private Enemy target;
 
-	public Tower(Screen screen, Texture textureBase, Texture textureTop, Tile startTile, float damage, float range, float attSpeed) {
+	public Tower(Screen screen, Texture textureBase, Texture textureTop, Tile startTile, float damage, float range, float attSpeed, ArrayList<Enemy> enemies) {
 		this.screen = screen;
                 this.level = screen.level;
 		this.textureBase = textureBase;
@@ -42,30 +45,42 @@ public class Tower {
 		this.initAttSpeed = attSpeed;
 		this.timeSinceLastShot = 0;
 		this.projectiles = new ArrayList<Projectile>();
-
+                this.enemies = enemies;
+                this.target = takeAim();
+                this.angle = calculateTrajectory();
 	}
-
+        
+        private Enemy takeAim(){
+            return enemies.get(0);
+        }
+        
+        private float calculateTrajectory(){
+            double tempAngle = Math.atan2(target.getY() * level.SCALE - y * level.SCALE, target.getX() * level.SCALE - x * level.SCALE);
+            return (float)Math.toDegrees(tempAngle) - 90;
+        }
+        
 	public void update() {
 		timeSinceLastShot += Delta();
-		if (timeSinceLastShot > initAttSpeed - (attSpeed - initAttSpeed)){
-			shoot();
+		if (timeSinceLastShot > initAttSpeed){
+                    shoot();
 		}
 		
 		for (Projectile p: projectiles){
-			p.update();
+                    p.update();
 		}
 		
+                angle = calculateTrajectory();
 		draw();
 	}
 
 	private void shoot() {
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(level, quickLoadTexture("bullet"), x + startTile.getWidth(), y + startTile.getHeight(), screen.enemy.getSpeed()*5, damage));
+		projectiles.add(new Projectile(level, target, quickLoadTexture("bullet"), x + (level.blockSize / 4), y + (level.blockSize / 4), 1000, damage));
 	}
 
 	public void draw() {
-		drawRectTexture(textureBase, x, y, width, height);
-		drawRotatableRectTexture(textureTop, x, y, width, height, -45);
+		drawRectTexture(textureBase, x * level.SCALE, y * level.SCALE, width * level.SCALE, height * level.SCALE);
+		drawRotatableRectTexture(textureTop, x * level.SCALE, y * level.SCALE, width * level.SCALE, height * level.SCALE, angle);
 	}
 
 	public float getX() {

@@ -11,7 +11,6 @@ package Gfx;
  */
 
 
-import Controllers.KeyHandler;
 import Main.Game;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -28,8 +27,9 @@ public class Frame
     
     //initialising default variables.
     public static String title = "TD Alpha 0.1";
-    public static int WIDTH = 800;
-    public static int HEIGHT = 600;
+    public static int WIDTH = 1280;
+    public static int HEIGHT = 960;
+    public float SCALE = 1;
     
     public Frame(Game game)
     {
@@ -62,7 +62,7 @@ public class Frame
         //Display.setLayout(new GridLayout(1, 1, 0, 0));
         
         //Creating object of screen (JPanel)
-        screen = new Screen();
+        screen = new Screen(SCALE);
         
         //Adding the panel to the frame and seting visible
         //Display.add(screen);

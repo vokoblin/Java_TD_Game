@@ -61,4 +61,8 @@ public class Wave {
         public boolean getAllEnemiesDead(){
             return allEnemiesDead;
         }
+
+    public ArrayList<Enemy> getEnemyList() {
+        return enemyList;
+    }
 }

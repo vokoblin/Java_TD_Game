@@ -223,7 +223,7 @@ public class Enemy {
     }
    
     public void draw(){
-        drawRectTexture(texture, x, y, width, height);
+        drawRectTexture(texture, x * level.SCALE, y * level.SCALE, width * level.SCALE, height * level.SCALE);
     }
     
     private void die()

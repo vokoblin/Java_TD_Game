@@ -12,29 +12,32 @@ import Gfx.Frame;
  * @author Vovaxs
  */
 public class Level {
-	public int mapWidth = 10;
-	public int mapHeight = 7;
+	public int mapWidth = 15;
+	public int mapHeight = 10;
 	public int blockSize = 64;
 	public int frameWidth;
 	public int frameHeight;
+        public float SCALE;
 
 	public Tile[][] map;
 
-	public Level() {
+	public Level(float SCALE) {
 		frameWidth = Frame.getWIDTH();
 		frameHeight = Frame.getHEIGHT();
+                this.SCALE  = SCALE;
 		map = new Tile[mapWidth][mapHeight];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
 				map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize,
-						blockSize, TileType.Grass);
+						blockSize, TileType.Grass, 2);
 			}
 		}
 	}
 
-	public Level(int[][] newMap) {
+	public Level(int[][] newMap, float SCALE) {
 		frameWidth = Frame.getWIDTH();
 		frameHeight = Frame.getHEIGHT();
+                this.SCALE  = SCALE;
 		map = new Tile[mapWidth][mapHeight];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
@@ -42,20 +45,20 @@ public class Level {
 
 				} else {
 					map[i][j] = new Tile(i * blockSize, j * blockSize,
-							blockSize, blockSize, TileType.Dirt);
+							blockSize, blockSize, TileType.Dirt, SCALE);
 				}
 				switch (newMap[j][i]) {
 				case 0:
 					map[i][j] = new Tile(i * blockSize, j * blockSize,
-							blockSize, blockSize, TileType.Grass);
+							blockSize, blockSize, TileType.Grass, SCALE);
 					break;
 				case 1:
 					map[i][j] = new Tile(i * blockSize, j * blockSize,
-							blockSize, blockSize, TileType.Dirt);
+							blockSize, blockSize, TileType.Dirt, SCALE);
 					break;
 				case 2:
 					map[i][j] = new Tile(i * blockSize, j * blockSize,
-							blockSize, blockSize, TileType.Water);
+							blockSize, blockSize, TileType.Water, SCALE);
 					break;
 				}
 			}
@@ -63,15 +66,14 @@ public class Level {
 	}
 
 	public void setTile(int xCoord, int yCoord, TileType type) {
-		map[xCoord][yCoord] = new Tile(xCoord * blockSize, yCoord * blockSize,
-				blockSize, blockSize, type);
+		map[xCoord][yCoord] = new Tile((int) (xCoord * blockSize * SCALE), (int) (yCoord * blockSize * SCALE), (int) (blockSize * SCALE), (int) (blockSize * SCALE), type, SCALE);
 	}
 
 	public Tile getTile(int xPos, int yPos) {
 		if (xPos < mapWidth && yPos < mapHeight && xPos > -1 && yPos > -1) {
 			return map[xPos][yPos];
 		} else {
-			return new Tile(0, 0, 0, 0, TileType.Void);
+			return new Tile(0, 0, 0, 0, TileType.Void, SCALE);
 		}
 	}
 

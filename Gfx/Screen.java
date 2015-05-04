@@ -36,29 +36,33 @@ public class Screen {
 	public int levelWidth = 30;
 	public int levelHeight = 30;
 	public int blockSize = 32;
+        private float SCALE;
 
 	// /tests:
 	public Enemy enemy;
 	private WaveManager waveManager;
 	private Player player;
-	private Tower tower;
 
-	int[][] map = { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 1, 0, 1, 1, 1, 0, 1, 1, 1 }, { 0, 1, 0, 1, 0, 1, 0, 1, 0, 0 },
-			{ 0, 1, 0, 1, 0, 1, 0, 1, 0, 0 }, { 0, 1, 0, 1, 0, 1, 0, 1, 0, 0 },
-			{ 0, 1, 1, 1, 0, 1, 1, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+	int[][] map = { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 }, 
+                        { 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 }, 
+                        { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
 
-	public Screen() {
-		level = new Level(map);
+	public Screen(float SCALE) {
+                this.SCALE  = SCALE;
+		level = new Level(map, SCALE);
 		// setBackground(Color.BLACK);
 		// drawScene();
 		enemy = new Enemy(quickLoadTexture("enemy"), level.getTile(0, 0),
 				level, 32, 32, 2, 50);
 		waveManager = new WaveManager(enemy, 2, 2);
-		player = new Player(level);
-		tower = new Tower(this, quickLoadTexture("cannonBase"),
-				quickLoadTexture("cannonGun"), level.getTile(4, 4), 10, 5, 0.5f);
-		tower.addAttSpeed(0.2f);
+		player = new Player(this, waveManager);
 	}
 
 	public void drawScene() {        
@@ -81,7 +85,6 @@ public class Screen {
 		level.draw();
 		waveManager.update();
 		player.update();
-		tower.update();
 
 		// enemy.draw();
 		// wave.update();
