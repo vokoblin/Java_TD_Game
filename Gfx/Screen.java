@@ -16,6 +16,7 @@ import Entities.Level;
 import Entities.Player;
 import Entities.Tower;
 import static Gfx.Artist.quickLoadTexture;
+import static LevelEditor.Cartographer.loadMap;
 
 import java.awt.Font;
 
@@ -33,8 +34,8 @@ public class Screen {
 	public static int mWidth;
 	public static int mHeight;
 
-	public int levelWidth = 30;
-	public int levelHeight = 30;
+	public int levelWidth = 26;
+	public int levelHeight = 19;
 	public int blockSize = 32;
         private float SCALE;
 
@@ -43,23 +44,13 @@ public class Screen {
 	private WaveManager waveManager;
 	private Player player;
 
-	int[][] map = { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 }, 
-                        { 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 }, 
-                        { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
-
 	public Screen(float SCALE) {
                 this.SCALE  = SCALE;
-		level = new Level(map, SCALE);
+		level = new Level();
+                level = loadMap("Map01");
 		// setBackground(Color.BLACK);
 		// drawScene();
-		enemy = new Enemy(quickLoadTexture("enemy"), level.getTile(0, 0),
+		enemy = new Enemy(quickLoadTexture("enemy"), level.getTile(0, 1),
 				level, 32, 32, 2, 50);
 		waveManager = new WaveManager(enemy, 2, 2);
 		player = new Player(this, waveManager);

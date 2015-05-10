@@ -55,7 +55,7 @@ public class Tower {
         }
         
         private float calculateTrajectory(){
-            double tempAngle = Math.atan2(target.getY() * level.SCALE - y * level.SCALE, target.getX() * level.SCALE - x * level.SCALE);
+            double tempAngle = Math.atan2(target.getY() * level.getSCALE() - y * level.getSCALE(), target.getX() * level.getSCALE() - x * level.getSCALE());
             return (float)Math.toDegrees(tempAngle) - 90;
         }
         
@@ -75,12 +75,12 @@ public class Tower {
 
 	private void shoot() {
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(level, target, quickLoadTexture("bullet"), x + (level.blockSize / 4), y + (level.blockSize / 4), 1000, damage));
+		projectiles.add(new Projectile(level, target, quickLoadTexture("bullet"), x + (level.getBlockSize() / 4), y + (level.getBlockSize() / 4), 1000, damage));
 	}
 
 	public void draw() {
-		drawRectTexture(textureBase, x * level.SCALE, y * level.SCALE, width * level.SCALE, height * level.SCALE);
-		drawRotatableRectTexture(textureTop, x * level.SCALE, y * level.SCALE, width * level.SCALE, height * level.SCALE, angle);
+		drawRectTexture(textureBase, x * level.getSCALE(), y * level.getSCALE(), width * level.getSCALE(), height * level.getSCALE());
+		drawRotatableRectTexture(textureTop, x * level.getSCALE(), y * level.getSCALE(), width * level.getSCALE(), height * level.getSCALE(), angle);
 	}
 
 	public float getX() {

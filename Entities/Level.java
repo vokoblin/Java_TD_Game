@@ -12,19 +12,19 @@ import Gfx.Frame;
  * @author Vovaxs
  */
 public class Level {
-	public int mapWidth = 15;
-	public int mapHeight = 10;
-	public int blockSize = 64;
-	public int frameWidth;
-	public int frameHeight;
-        public float SCALE;
+	private int mapWidth = 20;
+	private int mapHeight = 15;
+	private int blockSize = 32;
+	private int frameWidth;
+	private int frameHeight;
+        private float SCALE;
 
 	public Tile[][] map;
 
-	public Level(float SCALE) {
+	public Level() {
 		frameWidth = Frame.getWIDTH();
 		frameHeight = Frame.getHEIGHT();
-                this.SCALE  = SCALE;
+                this.SCALE  = Frame.getSCALE();
 		map = new Tile[mapWidth][mapHeight];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
@@ -34,10 +34,10 @@ public class Level {
 		}
 	}
 
-	public Level(int[][] newMap, float SCALE) {
+	public Level(int[][] newMap) {
 		frameWidth = Frame.getWIDTH();
 		frameHeight = Frame.getHEIGHT();
-                this.SCALE  = SCALE;
+                this.SCALE  = Frame.getSCALE();
 		map = new Tile[mapWidth][mapHeight];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
@@ -49,7 +49,7 @@ public class Level {
 				}
 				switch (newMap[j][i]) {
 				case 0:
-					map[i][j] = new Tile(i * blockSize, j * blockSize,
+					map[i][j] = new Tile(i * blockSize,  j * blockSize,
 							blockSize, blockSize, TileType.Grass, SCALE);
 					break;
 				case 1:
@@ -65,7 +65,7 @@ public class Level {
 		}
 	}
 
-	public void setTile(int xCoord, int yCoord, TileType type) {
+	public void setTile(int xCoord, int yCoord, int angle, TileType type) {
 		map[xCoord][yCoord] = new Tile((int) (xCoord * this.blockSize), (int) (yCoord * this.blockSize), this.blockSize, this.blockSize, type, SCALE);
 	}
 
@@ -136,4 +136,8 @@ public class Level {
 	public void setMap(Tile[][] map) {
 		this.map = map;
 	}
+
+    public float getSCALE() {
+        return SCALE;
+    }
 }

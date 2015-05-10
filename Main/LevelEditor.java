@@ -7,8 +7,7 @@ package Main;
 
 import Entities.Level;
 import Entities.TileType;
-import Gfx.Frame;
-import static LevelEditor.Cartographer.saveMap;
+import static LevelEditor.Cartographer.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -19,17 +18,17 @@ import org.lwjgl.input.Mouse;
 class LevelEditor {
     
     private Level map;
-    private Frame frame;
     private TileType[] types;
     private int index;
     
-    LevelEditor(Frame frame) {
-        this.frame = frame;
-        this.map = new Level(frame.SCALE);
-        this.types = new TileType[3];
+    LevelEditor() {
+        this.map = loadMap("DefaultMap");
+        this.types = new TileType[5];
         this.types[0] = TileType.Grass;
         this.types[1] = TileType.Dirt;
-        this.types[2] = TileType.Water;
+        this.types[2] = TileType.GrassDirt;
+        this.types[3] = TileType.GrassDirtCorn;
+        this.types[4] = TileType.Water;
         this.index = 0;
     }
 
@@ -54,15 +53,15 @@ class LevelEditor {
             }
             if(Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState())
             {
-                saveMap("mapTest", map);
+                saveMap("DefaultMap", map);
             }
         }
     }
     
     private void setTile(){
-        if((int) Math.floor(Mouse.getX() / (map.blockSize * map.SCALE)) <  map.mapWidth && (int) Math.floor((map.frameHeight - Mouse.getY() - 1) / (map.blockSize * map.SCALE)) <  map.mapHeight)
+        if((int) Math.floor(Mouse.getX() / (map.getBlockSize() * map.getSCALE())) <  map.getMapWidth() && (int) Math.floor((map.getFrameHeight() - Mouse.getY() - 1) / (map.getBlockSize() * map.getSCALE())) <  map.getMapHeight())
         {
-                 map.setTile((int) Math.floor(Mouse.getX() / (map.blockSize * map.SCALE)), (int) Math.floor((map.frameHeight - Mouse.getY() - 1) / (map.blockSize * map.SCALE)), types[index]);  
+                 map.setTile((int) Math.floor(Mouse.getX() / (map.getBlockSize() * map.getSCALE())), (int) Math.floor((map.getFrameHeight() - Mouse.getY() - 1) / (map.getBlockSize() * map.getSCALE())), types[index]);  
         }
     }
     

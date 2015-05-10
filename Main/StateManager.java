@@ -36,7 +36,7 @@ public class StateManager {
                 break;
             case LEVELEDITOR:
                 if(editor == null){
-                    editor = new LevelEditor(frame);
+                    editor = new LevelEditor();
                 }
                 editor.update();
                 break;

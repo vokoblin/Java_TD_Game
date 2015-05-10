@@ -29,7 +29,7 @@ public class Frame
     public static String title = "TD Alpha 0.1";
     public static int WIDTH = 800;
     public static int HEIGHT = 600;
-    public static float SCALE = 0.8f;
+    public static float SCALE = 1;
     
     public Frame(Game game)
     {
@@ -90,6 +90,10 @@ public class Frame
         return HEIGHT;
     }
 
+    public static float getSCALE() {
+        return SCALE;
+    }
+    
     public static void setSCALE(float SCALE) {
         Frame.SCALE = SCALE;
     }

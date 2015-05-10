@@ -223,7 +223,7 @@ public class Enemy {
     }
    
     public void draw(){
-        drawRectTexture(texture, x * level.SCALE, y * level.SCALE, width * level.SCALE, height * level.SCALE);
+        drawRectTexture(texture, x * level.getSCALE(), y * level.getSCALE(), width * level.getSCALE(), height * level.getSCALE());
     }
     
     private void die()

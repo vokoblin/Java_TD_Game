@@ -7,8 +7,11 @@ package LevelEditor;
 
 import Entities.Level;
 import Entities.Tile;
+import Entities.TileType;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -23,7 +26,7 @@ public class Cartographer {
         String mapData = "";
         for(int i = 0; i < map.getMapWidth(); i++){
             for(int j = 0; j < map.getMapHeight(); j++){
-                mapData += getTileID(map.getTile(i, j));
+                mapData += TileType.extractTileID(map.getTile(i, j));
             }
         }
         
@@ -38,24 +41,19 @@ public class Cartographer {
         }
     }
     
-    public static String getTileID(Tile t){
-        String id = t.getType().Void.name();
-        
-        switch (t.getType()){
-            case Grass:
-                id = "0";
-                break;
-            case Dirt:
-                id = "1";
-                break;
-            case Water:
-                id = "2";
-                break;
-            case Void:
-                id = "4";
-                break;
+    public static Level loadMap(String mapName){
+        Level map = new Level();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(mapName));
+            String data = br.readLine();
+            for(int i = 0; i < map.getMapWidth(); i++){
+                for(int j = 0; j < map.getMapHeight(); j++){
+                    map.setTile(i, j, TileType.extractTileType(data.substring(i * map.getMapHeight() + j, i * map.getMapHeight() + j + 1 )));
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        
-        return id;
+        return map;
     }
 }

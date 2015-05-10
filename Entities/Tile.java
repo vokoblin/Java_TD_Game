@@ -29,7 +29,7 @@ public class Tile
         this.width = width;
         this.height = height;
         this.type = type;
-        this.texture = quickLoadTexture(type.textureName);
+        this.texture = quickLoadTexture(type.getTextureName());
         this.SCALE = SCALE;
     }
     
@@ -44,7 +44,7 @@ public class Tile
     
     public int getXPos()
     {
-        return (int) x / 64;
+        return (int) x / 32;
     }
     
     public void setX(float x) {
@@ -53,7 +53,7 @@ public class Tile
     
     public int getYPos()
     {
-        return (int) y / 64;
+        return (int) y / 32;
     }
     
     public float getY() {

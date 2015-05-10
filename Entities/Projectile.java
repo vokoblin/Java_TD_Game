@@ -34,9 +34,9 @@ public class Projectile {
             //MAX 100% of the movement
             float totalAllowedMovement = 1.0f;
             //Absolute value of of the targets x - tower x = distance between them on the x axis.
-            float xDistanceFromTarget = Math.abs(target.getX() * level.SCALE - x * level.SCALE - (level.blockSize * level.SCALE / 4) + (level.blockSize * level.SCALE / 2));
+            float xDistanceFromTarget = Math.abs(target.getX() * level.getSCALE() - x * level.getSCALE() - (level.getBlockSize() * level.getSCALE() / 4) + (level.getBlockSize() * level.getSCALE() / 2));
             //Absolute value of of the targets y - tower y = distance between them on the y axis.
-            float yDistanceFromTarget = Math.abs(target.getY() * level.SCALE - y * level.SCALE - (level.blockSize * level.SCALE / 4) + (level.blockSize * level.SCALE / 2));
+            float yDistanceFromTarget = Math.abs(target.getY() * level.getSCALE() - y * level.getSCALE() - (level.getBlockSize() * level.getSCALE() / 4) + (level.getBlockSize() * level.getSCALE() / 2));
             //total distance between target and projectile.
             float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
             //splitting the percentage of the movement on x and y depending on target possition.
@@ -44,11 +44,11 @@ public class Projectile {
             xVelocity = xPercentOfMovement;
             yVelocity = totalAllowedMovement - xPercentOfMovement;
             //if targets x pos is less the projectile x pos = reverse the xVelocity
-            if(target.getX() * level.SCALE < x * level.SCALE){
+            if(target.getX() * level.getSCALE() < x * level.getSCALE()){
                 xVelocity *= -1;
             }
             //if targets y pos is less the projectile y pos = reverse the yVelocity
-            if(target.getY() * level.SCALE < y * level.SCALE){
+            if(target.getY() * level.getSCALE() < y * level.getSCALE()){
                 yVelocity *= -1;
             }
         }
@@ -56,12 +56,12 @@ public class Projectile {
 	public void update() {
 		x += xVelocity * speed * Delta();
                 y += yVelocity * speed * Delta();
-		if(x * level.SCALE < (level.mapWidth) * level.blockSize * level.SCALE && x * level.SCALE > 0 && y * level.SCALE < (level.mapHeight) * level.blockSize * level.SCALE && y * level.SCALE > 0){
+		if(x * level.getSCALE() < (level.getMapWidth()) * level.getBlockSize() * level.getSCALE() && x * level.getSCALE() > 0 && y * level.getSCALE() < (level.getMapHeight()) * level.getBlockSize() * level.getSCALE() && y * level.getSCALE() > 0){
 			draw();
 		}
 	}
 
 	private void draw() {
-		drawRectTexture(texture, x * level.SCALE, y * level.SCALE, 32  * level.SCALE, 32  * level.SCALE);
+		drawRectTexture(texture, x * level.getSCALE(), y * level.getSCALE(), 32  * level.getSCALE(), 32  * level.getSCALE());
 	}
 }

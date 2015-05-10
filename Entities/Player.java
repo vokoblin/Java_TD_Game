@@ -36,10 +36,10 @@ public class Player {
    
     public void setTower()
     {
-        if((int) Math.floor(Mouse.getX() / (level.blockSize * level.SCALE)) < level.mapWidth && (int) Math.floor((level.frameHeight - Mouse.getY() - 1) / (level.blockSize * level.SCALE)) < level.mapHeight)
+        if((int) Math.floor(Mouse.getX() / (level.getBlockSize() * level.getSCALE())) < level.getMapWidth() && (int) Math.floor((level.getFrameHeight() - Mouse.getY() - 1) / (level.getBlockSize() * level.getSCALE())) < level.getMapWidth());
         {
             towers.add(new Tower(screen ,quickLoadTexture("cannonBase"), quickLoadTexture("cannonGun"),
-                    level.getTile((int) Math.floor(Mouse.getX() / (level.blockSize * level.SCALE)), (int) Math.floor((level.frameHeight - Mouse.getY() - 1) / (level.blockSize * level.SCALE))), 
+                    level.getTile((int) Math.floor(Mouse.getX() / (level.getBlockSize() * level.getSCALE())), (int) Math.floor((level.getFrameHeight() - Mouse.getY() - 1) / (level.getBlockSize() * level.getSCALE()))), 
                     1, 1, 1, waveManager.getCurrentWave().getEnemyList()));
         }
     }
