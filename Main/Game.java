@@ -2,6 +2,7 @@ package Main;
 
 import Gfx.Frame;
 import Gfx.Screen;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 /*
@@ -34,8 +35,10 @@ public final class Game implements Runnable {
                     // Frame.screen.level.physics();
 		}
 		Clock.update();
-
-		frame.screen.drawScene();
+                
+                //System.out.println("mouse y :" + Mouse.getY());
+                //System.out.println("mouse x :" + Mouse.getX());
+		StateManager.update(frame);
 		// frame.screen.level.draw();
 
 		Display.setTitle("FPS: " + Clock.FPS());

@@ -5,6 +5,8 @@
  */
 package Main;
 
+import Gfx.Frame;
+
 /**
  *
  * @author Vovaxs
@@ -15,26 +17,34 @@ public class StateManager {
         MAINMENU, GAME, LEVELEDITOR
     }
     
-    public static GameState gameState;
+    public static GameState gameState = GameState.MAINMENU;
     public static MainMenu mainMenu;
     public static Game game;
+    //public static Frame frame = new Frame(game);
     public static LevelEditor editor;
     
-    public static void update(){
+    public static void update(Frame frame){
         switch(gameState){
             case MAINMENU:
                 if(mainMenu == null){
-                    mainMenu = new MainMenu();
+                    mainMenu = new MainMenu(frame);
                 }
                 mainMenu.update();
                 break;
             case GAME:
-                
+                frame.screen.drawScene();
                 break;
             case LEVELEDITOR:
-                
+                if(editor == null){
+                    editor = new LevelEditor(frame);
+                }
+                editor.update();
                 break;
                 
         }
+    }
+    
+    public static void setState(GameState newState){
+        gameState = newState;
     }
 }

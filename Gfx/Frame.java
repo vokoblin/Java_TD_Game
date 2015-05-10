@@ -27,9 +27,9 @@ public class Frame
     
     //initialising default variables.
     public static String title = "TD Alpha 0.1";
-    public static int WIDTH = 1280;
-    public static int HEIGHT = 960;
-    public float SCALE = 1;
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
+    public static float SCALE = 0.8f;
     
     public Frame(Game game)
     {
@@ -88,5 +88,9 @@ public class Frame
 
     public static int getHEIGHT() {
         return HEIGHT;
+    }
+
+    public static void setSCALE(float SCALE) {
+        Frame.SCALE = SCALE;
     }
 }

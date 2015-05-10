@@ -29,7 +29,7 @@ public class Level {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
 				map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize,
-						blockSize, TileType.Grass, 2);
+						blockSize, TileType.Grass, SCALE);
 			}
 		}
 	}
@@ -66,7 +66,7 @@ public class Level {
 	}
 
 	public void setTile(int xCoord, int yCoord, TileType type) {
-		map[xCoord][yCoord] = new Tile((int) (xCoord * blockSize * SCALE), (int) (yCoord * blockSize * SCALE), (int) (blockSize * SCALE), (int) (blockSize * SCALE), type, SCALE);
+		map[xCoord][yCoord] = new Tile((int) (xCoord * this.blockSize), (int) (yCoord * this.blockSize), this.blockSize, this.blockSize, type, SCALE);
 	}
 
 	public Tile getTile(int xPos, int yPos) {
