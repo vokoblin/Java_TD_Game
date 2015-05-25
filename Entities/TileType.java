@@ -12,7 +12,7 @@ package Entities;
 public enum TileType {
 
     Void("water", false, "0"), Grass("grass", true, "1"), GrassDirt("grassdirt", true, "2"), GrassDirtCorn("grassdirtcorn", true, "3"), Dirt("dirt", false, "4"), Water(
-                    "water", false, "5");
+                    "water", false, "5"),  GrassDirtCornTiny("grassdirtcorntiny", true, "6");
 
     private String textureName;
     private boolean buildable;

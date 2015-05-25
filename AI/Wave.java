@@ -17,38 +17,40 @@ public class Wave {
 
 	private float timeSinceLastSpawn;
 	private float spawnTime;
-        private int enemiesPerWave;
+	private int enemiesPerWave;
 	private Enemy enemyType;
 	private ArrayList<Enemy> enemyList;
-        private boolean allEnemiesDead;
+	private boolean allEnemiesDead;
 
 	public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave) {
 		this.enemyType = enemyType;
 		this.spawnTime = spawnTime;
-                this.enemiesPerWave = enemiesPerWave;
+		this.enemiesPerWave = enemiesPerWave;
 		this.timeSinceLastSpawn = 0;
 		this.enemyList = new ArrayList<Enemy>();
-                this.allEnemiesDead = false;
-                
-                spawn();
+		this.allEnemiesDead = false;
+
+		spawn();
 	}
 
 	public void update() {
-            allEnemiesDead = true;
-            if(enemyList.size() < enemiesPerWave){
-                timeSinceLastSpawn += Delta();
-                if (timeSinceLastSpawn > spawnTime) {
-                        spawn();
-                        timeSinceLastSpawn = 0;
-                }
-            }
-            for (Enemy e : enemyList) {
-		if (e.isAlive()) {
-                    allEnemiesDead = false;
-                    e.draw();
-                    e.update();
-                }
-            }
+		allEnemiesDead = true;
+		if (enemyList.size() < enemiesPerWave) {
+			timeSinceLastSpawn += Delta();
+			if (timeSinceLastSpawn > spawnTime) {
+				spawn();
+				timeSinceLastSpawn = 0;
+			}
+		}
+		for (Enemy e : enemyList) {
+			if (e.isAlive()) {
+				allEnemiesDead = false;
+				e.draw();
+				e.update();
+			} else {
+				e = null;
+			}
+		}
 	}
 
 	private void spawn() {
@@ -57,12 +59,12 @@ public class Wave {
 				enemyType.getHeight(), enemyType.getHealth(), enemyType
 						.getSpeed()));
 	}
-        
-        public boolean getAllEnemiesDead(){
-            return allEnemiesDead;
-        }
 
-    public ArrayList<Enemy> getEnemyList() {
-        return enemyList;
-    }
+	public boolean getAllEnemiesDead() {
+		return allEnemiesDead;
+	}
+
+	public ArrayList<Enemy> getEnemyList() {
+		return enemyList;
+	}
 }

@@ -1,7 +1,12 @@
 package Main;
 
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
 import Gfx.Frame;
 import Gfx.Screen;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
@@ -26,29 +31,36 @@ public final class Game implements Runnable {
 
 	@Override
 	public void run() {
-            Frame frame = new Frame(this);
+		Frame frame = new Frame(this);
 
-            /** Game start */
-            isRunning = true;
-            while (isRunning && !Display.isCloseRequested()) {
-                if (!Screen.isFirst) {
-                    // Frame.screen.level.physics();
+		/** Game start */
+		isRunning = true;
+		while (isRunning && !Display.isCloseRequested()) {
+			
+			
+			Clock.update();
+
+			// System.out.println("mouse y :" + Mouse.getY());
+			// System.out.println("mouse x :" + Mouse.getX());
+			StateManager.update(frame);
+
+			Display.setTitle("FPS: " + Clock.FPS());
+			Display.update();
+			Display.sync(60);
+			
+			clean();
 		}
-		Clock.update();
-                
-                //System.out.println("mouse y :" + Mouse.getY());
-                //System.out.println("mouse x :" + Mouse.getX());
-		StateManager.update(frame);
-		// frame.screen.level.draw();
-
-		Display.setTitle("FPS: " + Clock.FPS());
-		Display.update();
-		Display.sync(60);
-            }
 
 		Display.destroy();
 		System.exit(0);
 
+	}
+	
+	public void clean() {
+		// R,G,B,A Set The Color To Blue One Time Only
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		// Clear The Screen And The Depth Buffer
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	public static void main(String args[]) {

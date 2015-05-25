@@ -27,6 +27,7 @@ public class Cartographer {
         for(int i = 0; i < map.getMapWidth(); i++){
             for(int j = 0; j < map.getMapHeight(); j++){
                 mapData += TileType.extractTileID(map.getTile(i, j));
+                mapData += map.getTile(i, j).getAngleID();
             }
         }
         
@@ -46,9 +47,9 @@ public class Cartographer {
         try{
             BufferedReader br = new BufferedReader(new FileReader(mapName));
             String data = br.readLine();
-            for(int i = 0; i < map.getMapWidth(); i++){
-                for(int j = 0; j < map.getMapHeight(); j++){
-                    map.setTile(i, j, TileType.extractTileType(data.substring(i * map.getMapHeight() + j, i * map.getMapHeight() + j + 1 )));
+            for(int i = 0, x = 0; x < map.getMapWidth(); i+=2, x++){
+                for(int j = 0, y = 0; y < map.getMapHeight(); j+=2, y++){
+                	map.setTile(x, y, TileType.extractTileType(data.substring((x * 2) * map.getMapHeight() + (y * 2), (x * 2) * map.getMapHeight() + (y * 2) + 1 )), data.substring((x * 2) * map.getMapHeight() + (y * 2) + 1, (x * 2 ) * map.getMapHeight() + (y * 2) + 2 ));
                 }
             }
         } catch (Exception e){

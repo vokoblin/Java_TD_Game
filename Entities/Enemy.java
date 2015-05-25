@@ -82,6 +82,13 @@ public class Enemy {
         }
     }
     
+    public void getShot(float damage){
+    	health -= damage;
+    	if(health < 0){
+    		die();
+    	}
+    }
+    
     private boolean checkpointReached ()
     {
         boolean reached = false;

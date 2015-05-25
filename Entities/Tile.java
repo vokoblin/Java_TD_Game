@@ -6,7 +6,10 @@
 package Entities;
 
 import static Gfx.Artist.*;
+
 import org.newdawn.slick.opengl.Texture;
+
+import Gfx.Frame;
 
 /**
  *
@@ -21,8 +24,10 @@ public class Tile
     private Texture texture;
     private TileType type;
     private float SCALE;
+    private String angleID;
+    private int[] types;
     
-    public Tile(int x, int y, int width, int height, TileType type, float SCALE)
+    public Tile(int x, int y, int width, int height, TileType type)
     {
         this.x = x;
         this.y = y;
@@ -30,12 +35,36 @@ public class Tile
         this.height = height;
         this.type = type;
         this.texture = quickLoadTexture(type.getTextureName());
-        this.SCALE = SCALE;
+        this.SCALE = Frame.getSCALE();
+        this.types = new int[4];
+        this.types[0] = 0;
+        this.types[1] = 90;
+        this.types[2] = 180;
+        this.types[3] = 270;
+        this.angleID = "0";
+    }
+    
+    public Tile(int x, int y, int width, int height, TileType type, String angleID)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.type = type;
+        this.texture = quickLoadTexture(type.getTextureName());
+        this.SCALE = Frame.getSCALE();
+        this.types = new int[4];
+        this.types[0] = 0;
+        this.types[1] = 90;
+        this.types[2] = 180;
+        this.types[3] = 270;
+        this.angleID = angleID;
+        
     }
     
     public void draw()
     {
-       drawRectTexture(texture, x * SCALE, y * SCALE, width * SCALE, height * SCALE);
+    	drawRotatableRectTexture(texture, x * SCALE, y * SCALE, width * SCALE, height * SCALE, types[Integer.parseInt(angleID)]);
     }
     
     public float getX() {
@@ -95,7 +124,12 @@ public class Tile
     public void setType(TileType type) {
         this.type = type;
     }
-    
-    
-    
+
+	public String getAngleID() {
+		return angleID;
+	}
+
+	public void setAngleID(String angleID) {
+		this.angleID = angleID;
+	}
 }

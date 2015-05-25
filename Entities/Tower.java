@@ -11,12 +11,12 @@ import static Main.Clock.*;
 public class Tower {
 
 	private Screen screen;
-        private Level level;
+	private Level level;
 	private float x;
 	private float y;
 	private float width;
 	private float height;
-        private float angle;
+	private float angle;
 	private float damage;
 	private float range;
 	private float timeSinceLastShot;
@@ -26,12 +26,16 @@ public class Tower {
 	private Texture textureTop;
 	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
-        private ArrayList<Enemy> enemies;
-        private Enemy target;
+	private ArrayList<Enemy> enemies;
+	private Enemy target;
+	private int enemyNum;
+	private boolean waveControl;
 
-	public Tower(Screen screen, Texture textureBase, Texture textureTop, Tile startTile, float damage, float range, float attSpeed, ArrayList<Enemy> enemies) {
+	public Tower(Screen screen, Texture textureBase, Texture textureTop,
+			Tile startTile, float damage, float range, float attSpeed,
+			ArrayList<Enemy> enemies) {
 		this.screen = screen;
-                this.level = screen.level;
+		this.level = screen.level;
 		this.textureBase = textureBase;
 		this.textureTop = textureTop;
 		this.startTile = startTile;
@@ -45,42 +49,70 @@ public class Tower {
 		this.initAttSpeed = attSpeed;
 		this.timeSinceLastShot = 0;
 		this.projectiles = new ArrayList<Projectile>();
-                this.enemies = enemies;
-                this.target = takeAim();
-                this.angle = calculateTrajectory();
+		this.enemies = enemies;
+		this.enemyNum = 0;
+		this.waveControl = false;
+		this.target = takeAim();
+		this.angle = calculateTrajectory();
 	}
-        
-        private Enemy takeAim(){
-            return enemies.get(0);
-        }
-        
-        private float calculateTrajectory(){
-            double tempAngle = Math.atan2(target.getY() * level.getSCALE() - y * level.getSCALE(), target.getX() * level.getSCALE() - x * level.getSCALE());
-            return (float)Math.toDegrees(tempAngle) - 90;
-        }
-        
+	
+	//MAKE MORE Efficient!!!
+	private Enemy takeAim() {
+		if (screen.waveManager.getCurrentWave().getAllEnemiesDead()) {
+			this.waveControl = true;
+		} else {
+			if(waveControl){
+				this.enemies = screen.waveManager.getCurrentWave().getEnemyList();
+				this.enemyNum = 0;
+				this.waveControl = false;
+			} else {
+				if (!enemies.get(enemyNum).isAlive()) {
+					enemyNum++;
+					if(enemyNum == screen.waveManager.getCurrentWave().getEnemyList().size()){
+						enemyNum = 0;
+					}									}
+			}
+		}
+		return enemies.get(enemyNum);
+	}
+
+	private float calculateTrajectory() {
+		double tempAngle = Math.atan2(target.getY() * level.getSCALE() - y
+				* level.getSCALE(), target.getX() * level.getSCALE() - x
+				* level.getSCALE());
+		return (float) Math.toDegrees(tempAngle) - 90;
+	}
+
 	public void update() {
+		target = takeAim();
+
 		timeSinceLastShot += Delta();
-		if (timeSinceLastShot > initAttSpeed){
-                    shoot();
+		if (timeSinceLastShot > initAttSpeed) {
+			shoot();
 		}
-		
-		for (Projectile p: projectiles){
-                    p.update();
+
+		for (Projectile p : projectiles) {
+			p.update();
 		}
-		
-                angle = calculateTrajectory();
+
+		angle = calculateTrajectory();
 		draw();
 	}
 
 	private void shoot() {
 		timeSinceLastShot = 0;
-		projectiles.add(new Projectile(level, target, quickLoadTexture("bullet"), x + (level.getBlockSize() / 4), y + (level.getBlockSize() / 4), 1000, damage));
+		projectiles.add(new Projectile(level, target,
+				quickLoadTexture("bullet"), x + (level.getBlockSize() / 4), y
+						+ (level.getBlockSize() / 4), 32, 32, 1000, damage));
 	}
 
 	public void draw() {
-		drawRectTexture(textureBase, x * level.getSCALE(), y * level.getSCALE(), width * level.getSCALE(), height * level.getSCALE());
-		drawRotatableRectTexture(textureTop, x * level.getSCALE(), y * level.getSCALE(), width * level.getSCALE(), height * level.getSCALE(), angle);
+		drawRectTexture(textureBase, x * level.getSCALE(),
+				y * level.getSCALE(), width * level.getSCALE(),
+				height * level.getSCALE());
+		drawRotatableRectTexture(textureTop, x * level.getSCALE(),
+				y * level.getSCALE(), width * level.getSCALE(),
+				height * level.getSCALE(), angle);
 	}
 
 	public float getX() {
@@ -138,8 +170,8 @@ public class Tower {
 	public void setAttSpeed(float attSpeed) {
 		this.attSpeed = attSpeed;
 	}
-        
-        public void addAttSpeed(float attSpeed) {
+
+	public void addAttSpeed(float attSpeed) {
 		this.attSpeed += attSpeed;
 	}
 

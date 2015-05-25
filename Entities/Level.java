@@ -29,7 +29,7 @@ public class Level {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
 				map[i][j] = new Tile(i * blockSize, j * blockSize, blockSize,
-						blockSize, TileType.Grass, SCALE);
+						blockSize, TileType.Grass);
 			}
 		}
 	}
@@ -45,35 +45,35 @@ public class Level {
 
 				} else {
 					map[i][j] = new Tile(i * blockSize, j * blockSize,
-							blockSize, blockSize, TileType.Dirt, SCALE);
+							blockSize, blockSize, TileType.Dirt);
 				}
 				switch (newMap[j][i]) {
 				case 0:
 					map[i][j] = new Tile(i * blockSize,  j * blockSize,
-							blockSize, blockSize, TileType.Grass, SCALE);
+							blockSize, blockSize, TileType.Grass);
 					break;
 				case 1:
 					map[i][j] = new Tile(i * blockSize, j * blockSize,
-							blockSize, blockSize, TileType.Dirt, SCALE);
+							blockSize, blockSize, TileType.Dirt);
 					break;
 				case 2:
 					map[i][j] = new Tile(i * blockSize, j * blockSize,
-							blockSize, blockSize, TileType.Water, SCALE);
+							blockSize, blockSize, TileType.Water);
 					break;
 				}
 			}
 		}
 	}
 
-	public void setTile(int xCoord, int yCoord, int angle, TileType type) {
-		map[xCoord][yCoord] = new Tile((int) (xCoord * this.blockSize), (int) (yCoord * this.blockSize), this.blockSize, this.blockSize, type, SCALE);
+	public void setTile(int xCoord, int yCoord, TileType type, String angleID) {
+		map[xCoord][yCoord] = new Tile((int) (xCoord * this.blockSize), (int) (yCoord * this.blockSize), this.blockSize, this.blockSize, type, angleID);
 	}
 
 	public Tile getTile(int xPos, int yPos) {
 		if (xPos < mapWidth && yPos < mapHeight && xPos > -1 && yPos > -1) {
 			return map[xPos][yPos];
 		} else {
-			return new Tile(0, 0, 0, 0, TileType.Void, SCALE);
+			return new Tile(0, 0, 0, 0, TileType.Void);
 		}
 	}
 

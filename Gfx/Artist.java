@@ -53,7 +53,7 @@ public class Artist {
 		glLoadIdentity();
 	}
         
-        	public static void drawRotatableRectTexture(Texture tex, float x, float y,
+	public static void drawRotatableRectTexture(Texture tex, float x, float y,
 			float width, float height, float angle) {
 		tex.bind();
                 

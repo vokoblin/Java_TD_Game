@@ -19,17 +19,22 @@ class LevelEditor {
     
     private Level map;
     private TileType[] types;
+    private String angleID;
     private int index;
+    private int tempI;
     
     LevelEditor() {
         this.map = loadMap("DefaultMap");
-        this.types = new TileType[5];
+        this.types = new TileType[6];
         this.types[0] = TileType.Grass;
         this.types[1] = TileType.Dirt;
         this.types[2] = TileType.GrassDirt;
         this.types[3] = TileType.GrassDirtCorn;
-        this.types[4] = TileType.Water;
+        this.types[4] = TileType.GrassDirtCornTiny;
+        this.types[5] = TileType.Water;
+        this.angleID = "0";
         this.index = 0;
+        this.tempI = 0;
     }
 
     void update() {
@@ -49,7 +54,7 @@ class LevelEditor {
             }
             if(Keyboard.getEventKey() == Keyboard.KEY_LEFT && Keyboard.getEventKeyState())
             {
-                changeIndex(false);
+                changeAngle();
             }
             if(Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState())
             {
@@ -61,8 +66,16 @@ class LevelEditor {
     private void setTile(){
         if((int) Math.floor(Mouse.getX() / (map.getBlockSize() * map.getSCALE())) <  map.getMapWidth() && (int) Math.floor((map.getFrameHeight() - Mouse.getY() - 1) / (map.getBlockSize() * map.getSCALE())) <  map.getMapHeight())
         {
-                 map.setTile((int) Math.floor(Mouse.getX() / (map.getBlockSize() * map.getSCALE())), (int) Math.floor((map.getFrameHeight() - Mouse.getY() - 1) / (map.getBlockSize() * map.getSCALE())), types[index]);  
+                 map.setTile((int) Math.floor(Mouse.getX() / (map.getBlockSize() * map.getSCALE())), (int) Math.floor((map.getFrameHeight() - Mouse.getY() - 1) / (map.getBlockSize() * map.getSCALE())), types[index], angleID);  
         }
+    }
+    
+    private void changeAngle(){
+    	tempI++;
+    	if(tempI > 3){
+    		tempI = 0;
+    	}
+    	angleID = tempI + "";
     }
     
     private void changeIndex(boolean i){

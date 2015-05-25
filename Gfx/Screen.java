@@ -41,7 +41,7 @@ public class Screen {
 
 	// /tests:
 	public Enemy enemy;
-	private WaveManager waveManager;
+	public WaveManager waveManager;
 	private Player player;
 
 	public Screen(float SCALE) {
@@ -67,11 +67,10 @@ public class Screen {
 			// ser isFirst to false;
 			isFirst = false;
 		}
-		// g.clearRect(0, 0, getWidth(), getHeight());
+		//g.clearRect(0, 0, getWidth(), getHeight());
 		// drawQuad(150, 150, blockSize, blockSize);
 		// drawLine(10, 10, 100, 100);
 		// enemy.update();
-		// clean();
 
 		level.draw();
 		waveManager.update();
@@ -80,14 +79,6 @@ public class Screen {
 		// enemy.draw();
 		// wave.update();
 
-	}
-
-	public void clean() {
-		// Clear The Screen And The Depth Buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// R,G,B,A Set The Color To Blue One Time Only
-		glColor3f(0.5f, 0.5f, 1.0f);
 	}
 
 	public void Rander() {
