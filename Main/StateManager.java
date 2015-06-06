@@ -32,7 +32,7 @@ public class StateManager {
                 mainMenu.update();
                 break;
             case GAME:
-                frame.screen.drawScene();
+                Frame.getScreen().drawScene();
                 break;
             case LEVELEDITOR:
                 if(editor == null){

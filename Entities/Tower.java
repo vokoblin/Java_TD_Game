@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
 
 import static Gfx.Artist.*;
+import AI.WaveManager;
 import Gfx.Screen;
 import static Main.Clock.*;
 
 public class Tower {
 
-	private Screen screen;
 	private Level level;
 	private float x;
 	private float y;
@@ -26,16 +26,20 @@ public class Tower {
 	private Texture textureTop;
 	private Tile startTile;
 	private ArrayList<Projectile> projectiles;
+	private WaveManager waveManager;
 	private ArrayList<Enemy> enemies;
 	private Enemy target;
-	private int enemyNum;
 	private boolean waveControl;
+	private aimingTypes aimingType;
+
+	private enum aimingTypes {
+		FIRST, CLOSE, STRONG
+	}
 
 	public Tower(Screen screen, Texture textureBase, Texture textureTop,
 			Tile startTile, float damage, float range, float attSpeed,
-			ArrayList<Enemy> enemies) {
-		this.screen = screen;
-		this.level = screen.level;
+			WaveManager waveManager) {
+		this.level = Screen.getLevel();
 		this.textureBase = textureBase;
 		this.textureTop = textureTop;
 		this.startTile = startTile;
@@ -48,46 +52,85 @@ public class Tower {
 		this.attSpeed = attSpeed;
 		this.initAttSpeed = attSpeed;
 		this.timeSinceLastShot = 0;
+		this.waveManager = waveManager;
 		this.projectiles = new ArrayList<Projectile>();
-		this.enemies = enemies;
-		this.enemyNum = 0;
+		this.enemies = waveManager.getCurrentWave().getEnemyList();
 		this.waveControl = false;
+		this.angle = 0;
+		this.aimingType = aimingTypes.CLOSE;
 		this.target = takeAim();
-		this.angle = calculateTrajectory();
 	}
-	
-	//MAKE MORE Efficient!!!
+
+	// MAKE MORE Efficient!!!
 	private Enemy takeAim() {
-		if (screen.waveManager.getCurrentWave().getAllEnemiesDead()) {
-			this.waveControl = true;
+		Enemy possibleTarget = null;
+		float closestDistance = range;
+
+		if (waveManager.getCurrentWave().getAllEnemiesDead()) {
+			waveControl = true;
 		} else {
-			if(waveControl){
-				this.enemies = screen.waveManager.getCurrentWave().getEnemyList();
-				this.enemyNum = 0;
-				this.waveControl = false;
+			if (waveControl) {
+				enemies = waveManager.getCurrentWave().getEnemyList();
+				waveControl = false;
 			} else {
-				if (!enemies.get(enemyNum).isAlive()) {
-					enemyNum++;
-					if(enemyNum == screen.waveManager.getCurrentWave().getEnemyList().size()){
-						enemyNum = 0;
-					}									}
+				for (Enemy e : enemies) {
+					if (inRange(e) && e.isAlive()) {
+						switch (aimingType) {
+						case FIRST:
+
+							break;
+
+						case CLOSE:
+							if (calculateDistance(e) < closestDistance) {
+								closestDistance = calculateDistance(e);
+								possibleTarget = e;
+							}
+						case STRONG:
+							break;
+						default:
+							aimingType = aimingTypes.FIRST;
+							break;
+						}
+					}
+				}
 			}
 		}
-		return enemies.get(enemyNum);
+		return possibleTarget;
+	}
+
+	private boolean inRange(Enemy e) {
+		float xDistance = Math.abs(e.getX() - x);
+		float yDistance = Math.abs(e.getY() - y);
+		if (xDistance < range && yDistance < range) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private float calculateDistance(Enemy e) {
+		float xDistance = Math.abs(e.getX() - x);
+		float yDistance = Math.abs(e.getY() - y);
+		return xDistance + yDistance;
 	}
 
 	private float calculateTrajectory() {
-		double tempAngle = Math.atan2(target.getY() * level.getSCALE() - y
-				* level.getSCALE(), target.getX() * level.getSCALE() - x
-				* level.getSCALE());
-		return (float) Math.toDegrees(tempAngle) - 90;
+		if (target == null) {
+			return angle;
+		} else {
+			double tempAngle = Math.atan2(target.getY() * level.getSCALE() - y
+					* level.getSCALE(), target.getX() * level.getSCALE() - x
+					* level.getSCALE());
+			return (float) Math.toDegrees(tempAngle) - 90;
+		}
 	}
 
 	public void update() {
 		target = takeAim();
+		angle = calculateTrajectory();
 
 		timeSinceLastShot += Delta();
-		if (timeSinceLastShot > initAttSpeed) {
+		if (timeSinceLastShot > initAttSpeed && target != null) {
 			shoot();
 		}
 
@@ -95,7 +138,6 @@ public class Tower {
 			p.update();
 		}
 
-		angle = calculateTrajectory();
 		draw();
 	}
 
@@ -103,7 +145,7 @@ public class Tower {
 		timeSinceLastShot = 0;
 		projectiles.add(new Projectile(level, target,
 				quickLoadTexture("bullet"), x + (level.getBlockSize() / 4), y
-						+ (level.getBlockSize() / 4), 32, 32, 1000, damage));
+						+ (level.getBlockSize() / 4), 16, 16, 1000, damage));
 	}
 
 	public void draw() {
@@ -113,6 +155,7 @@ public class Tower {
 		drawRotatableRectTexture(textureTop, x * level.getSCALE(),
 				y * level.getSCALE(), width * level.getSCALE(),
 				height * level.getSCALE(), angle);
+
 	}
 
 	public float getX() {

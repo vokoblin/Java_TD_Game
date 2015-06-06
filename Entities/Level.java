@@ -68,6 +68,10 @@ public class Level {
 	public void setTile(int xCoord, int yCoord, TileType type, String angleID) {
 		map[xCoord][yCoord] = new Tile((int) (xCoord * this.blockSize), (int) (yCoord * this.blockSize), this.blockSize, this.blockSize, type, angleID);
 	}
+	
+	public void setUnbuildable(int xCoord, int yCoord){
+		map[xCoord][yCoord].setBuildable(false);
+	}
 
 	public Tile getTile(int xPos, int yPos) {
 		if (xPos < mapWidth && yPos < mapHeight && xPos > -1 && yPos > -1) {

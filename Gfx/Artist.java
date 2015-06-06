@@ -7,7 +7,9 @@ package Gfx;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import static org.lwjgl.opengl.GL11.*;
+
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -23,6 +25,30 @@ public class Artist {
 		glVertex2f(p1x, p1y);
 		glVertex2f(p2x, p2y);
 		glEnd();
+	}
+	
+	public static void drawCircle(float cx, float cy, float r) {
+		float theta = (float) (2 * 3.1415926 / getCircleSegmentNum(r));
+		float c = (float) Math.cos(theta);
+		float s = (float) Math.sin(theta);
+		float t;
+		
+		float x = r; //we start at angle 0;
+		float y = 0;
+		//setting a colour to black
+		glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+		glBegin(GL_LINE_LOOP);
+		for (int i = 0; i < getCircleSegmentNum(r); i++){
+			glVertex2f(x + cx, y + cy); //output vertex
+			
+			//apply the rotation matrix
+			t = x;
+			x = c * x - s * y;
+			y = s * t + c * y;
+		}
+		glEnd();
+		//setting a colour back to white
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	public static void drawRect(float x, float y, float width, float height) {
@@ -95,5 +121,9 @@ public class Artist {
 		Texture tex = null;
 		tex = loadTexture("res/" + name + ".png", "PNG");
 		return tex;
+	}
+	
+	private static int getCircleSegmentNum(float r){
+		return (int) (10 * Math.sqrt((double) r));
 	}
 }

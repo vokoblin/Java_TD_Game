@@ -26,6 +26,7 @@ public class Tile
     private float SCALE;
     private String angleID;
     private int[] types;
+    private boolean isBuildable;
     
     public Tile(int x, int y, int width, int height, TileType type)
     {
@@ -42,6 +43,7 @@ public class Tile
         this.types[2] = 180;
         this.types[3] = 270;
         this.angleID = "0";
+        this.isBuildable = type.isBuildable();
     }
     
     public Tile(int x, int y, int width, int height, TileType type, String angleID)
@@ -59,10 +61,19 @@ public class Tile
         this.types[2] = 180;
         this.types[3] = 270;
         this.angleID = angleID;
+        this.isBuildable = type.isBuildable();
         
     }
     
-    public void draw()
+    public boolean isBuildable() {
+		return isBuildable;
+	}
+
+	public void setBuildable(boolean isBuildable) {
+		this.isBuildable = isBuildable;
+	}
+
+	public void draw()
     {
     	drawRotatableRectTexture(texture, x * SCALE, y * SCALE, width * SCALE, height * SCALE, types[Integer.parseInt(angleID)]);
     }

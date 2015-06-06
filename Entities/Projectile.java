@@ -95,6 +95,6 @@ public class Projectile {
 
 	private void draw() {
 		drawRectTexture(texture, x * level.getSCALE(), y * level.getSCALE(),
-				32 * level.getSCALE(), 32 * level.getSCALE());
+				width * level.getSCALE(), height * level.getSCALE());
 	}
 }

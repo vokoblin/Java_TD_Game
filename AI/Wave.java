@@ -34,13 +34,15 @@ public class Wave {
 	}
 
 	public void update() {
-		allEnemiesDead = true;
+
 		if (enemyList.size() < enemiesPerWave) {
 			timeSinceLastSpawn += Delta();
 			if (timeSinceLastSpawn > spawnTime) {
 				spawn();
 				timeSinceLastSpawn = 0;
 			}
+		} else {
+			allEnemiesDead = true;
 		}
 		for (Enemy e : enemyList) {
 			if (e.isAlive()) {
