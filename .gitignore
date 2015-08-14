@@ -5,6 +5,7 @@ nbproject/*
 build.xml
 manifest.mf
 README.md
+src/res/*
 
 *.class
 
