@@ -15,6 +15,7 @@ import Entities.Enemy;
 import Entities.Level;
 import Entities.Player;
 import static Gfx.Artist.quickLoadTexture;
+import LevelEditor.Cartographer;
 import static LevelEditor.Cartographer.loadMap;
 
 import java.awt.Font;
@@ -41,7 +42,8 @@ public class Screen {
 	private Player player;
 
 	public Screen() {
-		setLevel(new Level());
+		//setLevel(new Level());
+                Cartographer.setDEFAULT_FILE_PATH(System.getProperty("user.dir") + "/../../maps/");
 		setLevel(loadMap("Map01"));
 		// setBackground(Color.BLACK);
 		// drawScene();

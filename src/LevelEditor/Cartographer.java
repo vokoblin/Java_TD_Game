@@ -22,6 +22,16 @@ import java.util.logging.Logger;
  */
 public class Cartographer {
     
+    private static String DEFAULT_FILE_PATH;
+
+    public static String getDEFAULT_FILE_PATH() {
+        return DEFAULT_FILE_PATH;
+    }
+
+    public static void setDEFAULT_FILE_PATH(String DEFAULT_FILE_PATH) {
+        Cartographer.DEFAULT_FILE_PATH = DEFAULT_FILE_PATH;
+    }
+    
     public static void saveMap(String mapName, Level map){
         String mapData = "";
         for(int i = 0; i < map.getMapWidth(); i++){
@@ -32,7 +42,7 @@ public class Cartographer {
         }
         
         try {
-            File file = new File(mapName);
+            File file = new File(DEFAULT_FILE_PATH + mapName);
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             bw.write(mapData);
             bw.close();
@@ -45,7 +55,7 @@ public class Cartographer {
     public static Level loadMap(String mapName){
         Level map = new Level();
         try{
-            BufferedReader br = new BufferedReader(new FileReader(mapName));
+            BufferedReader br = new BufferedReader(new FileReader(DEFAULT_FILE_PATH + mapName));
             String data = br.readLine();
             for(int i = 0, x = 0; x < map.getMapWidth(); i+=2, x++){
                 for(int j = 0, y = 0; y < map.getMapHeight(); j+=2, y++){
