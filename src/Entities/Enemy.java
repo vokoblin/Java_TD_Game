@@ -16,8 +16,9 @@ import org.newdawn.slick.opengl.Texture;
  * @author Vovaxs
  */
 public class Enemy {
+
     private Level level;
-    
+
     private float x;
     private float y;
     private int width;
@@ -28,13 +29,12 @@ public class Enemy {
     private Tile startTile;
     private boolean isFirstUpdate = true;
     private boolean isAlive = true;
-    
+
     private ArrayList<Checkpoint> checkpoints;
     private int[] directions;
     private int currentCheckpoint;
-    
-    public Enemy (Texture texture, Tile startTile, Level level, int width, int height, float health, float speed)
-    {
+
+    public Enemy(Texture texture, Tile startTile, Level level, int width, int height, float health, float speed) {
         this.texture = texture;
         this.startTile = startTile;
         this.x = startTile.getX();
@@ -44,7 +44,7 @@ public class Enemy {
         this.health = health;
         this.speed = speed;
         this.level = level;
-       
+
         this.checkpoints = new ArrayList<Checkpoint>();
         this.directions = new int[2];
         //x direction
@@ -55,100 +55,83 @@ public class Enemy {
         this.currentCheckpoint = 0;
         scanLevel();
     }
-    public void update()
-    {
-        if (isFirstUpdate)
-        {
+
+    public void update() {
+        if (isFirstUpdate) {
             isFirstUpdate = false;
-        }
-        else
-        {
-            if(checkpointReached())
-            {
-            	if(currentCheckpoint >= checkpoints.size() - 1)
-            	{
-            		die();
-            	}
-            	else
-            	{
-            		currentCheckpoint++;	
-            	}
-            }
-            else
-            {
+        } else {
+            if (checkpointReached()) {
+                if (currentCheckpoint >= checkpoints.size() - 1) {
+                    die();
+                } else {
+                    currentCheckpoint++;
+                }
+            } else {
                 x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
                 y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
             }
         }
     }
-    
-    public void getShot(float damage){
-    	health -= damage;
-    	if(health <= 0){
-    		die();
-    	}
+
+    public void getShot(float damage) {
+        health -= damage;
+        if (health <= 0) {
+            die();
+        }
     }
-    
-    private boolean checkpointReached ()
-    {
+
+    private boolean checkpointReached() {
         boolean reached = false;
         Tile t = checkpoints.get(currentCheckpoint).getTile();
         int modifier = 3;
-                
-        if(x > t.getX() - modifier &&
-                x < t.getX() + modifier &&
-                y > t.getY() - modifier &&
-                y < t.getY() + modifier)
-        {
+
+        if (x > t.getX() - modifier
+                && x < t.getX() + modifier
+                && y > t.getY() - modifier
+                && y < t.getY() + modifier) {
             reached = true;
             x = t.getX();
             y = t.getY();
         }
-        
+
         return reached;
     }
-    
-    /** Scans the level for all the checkpoints
-     and populates checkpoint array */
-    private void scanLevel ()
-    {
+
+    /**
+     * Scans the level for all the checkpoints and populates checkpoint array
+     */
+    private void scanLevel() {
         checkpoints.add(detectCheckpoint(startTile, directions = detectPath(startTile)));
-        
+
         int counter = 0;
         boolean end = false;
-        while (!end && counter < 20)
-        {
-            int [] currentDirection = detectPath(checkpoints.get(counter).getTile());
+        while (!end && counter < 20) {
+            int[] currentDirection = detectPath(checkpoints.get(counter).getTile());
             //check all map for checkpoints or until counter = 20
-            if (currentDirection[0] == 2)
-            {
+            if (currentDirection[0] == 2) {
                 end = true;
-            }
-            else{
+            } else {
                 checkpoints.add(detectCheckpoint(checkpoints.get(counter).getTile(),
                         directions = detectPath(checkpoints.get(counter).getTile())));
             }
             counter++;
         }
     }
-    
-    private Checkpoint detectCheckpoint (Tile t, int[] dir)
-    {
+
+    private Checkpoint detectCheckpoint(Tile t, int[] dir) {
         Tile next = null;
         Checkpoint c = null;
-        
+
         boolean detected = false;
         int counter = 1;
-        
-        while (!detected)
-        {
+
+        while (!detected) {
             //check the path along the direction that enemy is heading
-            if (t.getXPos() + dir[0] * counter == level.getMapWidth() ||
-            		t.getYPos() + dir[1] * counter == level.getMapHeight() ||
-            		t.getType() != 
-                    level.getTile(t.getXPos() + dir[0] * counter,
-                        t.getYPos() + dir[1] * counter).getType())
-            {
+            if (t.getXPos() + dir[0] * counter == level.getMapWidth()
+                    || t.getYPos() + dir[1] * counter == level.getMapHeight()
+                    || t.getType()
+                    != level.getTile(t.getXPos() + dir[0] * counter,
+                            t.getYPos() + dir[1] * counter).getType()) {
                 //checkpoint detected
                 detected = true;
                 //when the end of the path is found then go one tile back
@@ -163,9 +146,8 @@ public class Enemy {
         c = new Checkpoint(next, dir[0], dir[1]);
         return c;
     }
-    
-    private int[] detectPath (Tile t)
-    {
+
+    private int[] detectPath(Tile t) {
         //int array for heading direction
         int[] dir = new int[2];
         //predicted tiles (up/right/down/left)
@@ -178,64 +160,46 @@ public class Enemy {
         Tile upright = level.getTile(t.getXPos() + 1, t.getYPos() - 1);
         Tile downright = level.getTile(t.getXPos() + 1, t.getYPos() + 1);
         Tile downleft = level.getTile(t.getXPos() - 1, t.getYPos() + 1);
-        
+
         //find path
-        if (t.getType() == up.getType() && directions[1] != 1)
-        {
+        if (t.getType() == up.getType() && directions[1] != 1) {
             dir[0] = 0;
             dir[1] = -1;
-        }
-        else if (t.getType() == right.getType() && directions[0] != -1)
-        {
+        } else if (t.getType() == right.getType() && directions[0] != -1) {
             dir[0] = 1;
             dir[1] = 0;
-        }
-        else if (t.getType() == down.getType() && directions[1] != -1)
-        {
+        } else if (t.getType() == down.getType() && directions[1] != -1) {
             dir[0] = 0;
             dir[1] = 1;
-        }
-        else if (t.getType() == left.getType() && directions[0] != 1)
-        {
+        } else if (t.getType() == left.getType() && directions[0] != 1) {
             dir[0] = -1;
             dir[1] = 0;
-        }
-        else if (t.getType() == upleft.getType() && (directions[0] != 1  || directions[1] != 1))
-        {
+        } else if (t.getType() == upleft.getType() && (directions[0] != 1 || directions[1] != 1)) {
             dir[0] = -1;
             dir[1] = -1;
-        }
-        else if (t.getType() == upright.getType() && (directions[0] != -1  || directions[1] != 1))
-        {
+        } else if (t.getType() == upright.getType() && (directions[0] != -1 || directions[1] != 1)) {
             dir[0] = 1;
             dir[1] = -1;
-        }
-        else if (t.getType() == downright.getType() && (directions[0] != -1  || directions[1] != -1))
-        {
+        } else if (t.getType() == downright.getType() && (directions[0] != -1 || directions[1] != -1)) {
             dir[0] = 1;
             dir[1] = 1;
-        }
-        else if (t.getType() == downleft.getType() && (directions[0] != 1  || directions[1] != -1))
-        {
+        } else if (t.getType() == downleft.getType() && (directions[0] != 1 || directions[1] != -1)) {
             dir[0] = -1;
             dir[1] = 1;
-        }
-        else
-        {
+        } else {
             dir[0] = 2;
             dir[1] = 2;
         }
-        
+
         return dir;
     }
-   
-    public void draw(){
+
+    public void draw() {
         drawRectTexture(texture, x * level.getSCALE(), y * level.getSCALE(), width * level.getSCALE(), height * level.getSCALE());
     }
-    
-    private void die()
-    {
-    	isAlive = false;
+
+    private void die() {
+        isAlive = false;
     }
 
     public float getX() {
@@ -301,15 +265,16 @@ public class Enemy {
     public void setStartTile(Tile startTile) {
         this.startTile = startTile;
     }
-    
-    public Level getLevel()
-    {
+
+    public Level getLevel() {
         return level;
     }
-	public boolean isAlive() {
-		return isAlive;
-	}
-	public void setAlive(boolean isAlive) {
-		this.isAlive = isAlive;
-	}
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
 }

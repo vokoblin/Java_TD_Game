@@ -12,42 +12,41 @@ import Entities.Enemy;
  * @author Vovaxs
  */
 public class WaveManager {
-    
+
     private float timeSinceLastWave;
     private float timeBetweenEnemies;
     private int waveNumber;
     private int enemiesPerWave;
     private Enemy enemyType;
     private Wave currentWave;
-    
-    public WaveManager(Enemy enemyType, float timeBetweenEnemies, int enemiesPerWave){
+
+    public WaveManager(Enemy enemyType, float timeBetweenEnemies, int enemiesPerWave) {
         this.enemyType = enemyType;
         this.enemiesPerWave = enemiesPerWave;
         this.timeBetweenEnemies = timeBetweenEnemies;
         this.timeSinceLastWave = 0;
         this.waveNumber = 0;
-        
+
         this.currentWave = null;
-        
+
         newWave();
     }
-    
-    public void update(){
-        if(!currentWave.getAllEnemiesDead()){
+
+    public void update() {
+        if (!currentWave.getAllEnemiesDead()) {
             currentWave.update();
-        }
-        else{
+        } else {
             newWave();
         }
     }
-    
-    public void newWave(){
+
+    public void newWave() {
         waveNumber++;
         currentWave = new Wave(enemyType, timeBetweenEnemies, enemiesPerWave + waveNumber);
-        System.out.println("Wave #"+waveNumber);
+        System.out.println("Wave #" + waveNumber);
     }
-    
-    public Wave getCurrentWave(){
+
+    public Wave getCurrentWave() {
         return currentWave;
     }
 }

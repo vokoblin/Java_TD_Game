@@ -9,7 +9,6 @@ package Gfx;
  *
  * @author Vovaxs
  */
-
 import AI.WaveManager;
 import Entities.Enemy;
 import Entities.Level;
@@ -23,74 +22,75 @@ import java.awt.Font;
 import org.lwjgl.opengl.Display;
 
 public class Screen {
-	Font font = new Font("Times New Roman", Font.BOLD, 24);
 
-	public static boolean isFirst = true;
+    Font font = new Font("Times New Roman", Font.BOLD, 24);
 
-	private static Level level;
+    public static boolean isFirst = true;
 
-	public static int mWidth;
-	public static int mHeight;
+    private static Level level;
 
-	public int levelWidth = 26;
-	public int levelHeight = 19;
-	public int blockSize = 32;
-	
-	// /tests:
-	public Enemy enemy;
-	public WaveManager waveManager;
-	private Player player;
+    public static int mWidth;
+    public static int mHeight;
 
-	public Screen() {
-		//setLevel(new Level());
-                Cartographer.setDEFAULT_FILE_PATH(System.getProperty("user.dir") + "/../../maps/");
-		setLevel(loadMap("Map01"));
+    public int levelWidth = 26;
+    public int levelHeight = 19;
+    public int blockSize = 32;
+
+    // /tests:
+    public Enemy enemy;
+    public WaveManager waveManager;
+    private Player player;
+
+    public Screen() {
+        //setLevel(new Level());
+        Cartographer.setDEFAULT_FILE_PATH(System.getProperty("user.dir") + "/../../maps/");
+        setLevel(loadMap("Map01"));
 		// setBackground(Color.BLACK);
-		// drawScene();
-		enemy = new Enemy(quickLoadTexture("enemy"), getLevel().getTile(0, 1),
-				getLevel(), 32, 32, 100, 50);
-		waveManager = new WaveManager(enemy, 2, 2);
-		player = new Player(this, waveManager);
-	}
+        // drawScene();
+        enemy = new Enemy(quickLoadTexture("enemy"), getLevel().getTile(0, 1),
+                getLevel(), 32, 32, 100, 50);
+        waveManager = new WaveManager(enemy, 2, 2);
+        player = new Player(this, waveManager);
+    }
 
-	public void drawScene() {
-		if (isFirst) {
-			mWidth = Display.getWidth();
-			mHeight = Display.getHeight();
+    public void drawScene() {
+        if (isFirst) {
+            mWidth = Display.getWidth();
+            mHeight = Display.getHeight();
 
-			// if running for the first time than define everything
-			define();
+            // if running for the first time than define everything
+            define();
 
-			// ser isFirst to false;
-			isFirst = false;
-		}
+            // ser isFirst to false;
+            isFirst = false;
+        }
 		// g.clearRect(0, 0, getWidth(), getHeight());
-		// drawQuad(150, 150, blockSize, blockSize);
-		// drawLine(10, 10, 100, 100);
-		// enemy.update();
+        // drawQuad(150, 150, blockSize, blockSize);
+        // drawLine(10, 10, 100, 100);
+        // enemy.update();
 
-		getLevel().draw();
-		waveManager.update();
-		player.update();
+        getLevel().draw();
+        waveManager.update();
+        player.update();
 
 		// enemy.draw();
-		// wave.update();
-	}
+        // wave.update();
+    }
 
-	public void Rander() {
+    public void Rander() {
 
-	}
+    }
 
-	private void define() {
-		// level = new Level();
-	}
+    private void define() {
+        // level = new Level();
+    }
 
-	public static Level getLevel() {
-		return level;
-	}
+    public static Level getLevel() {
+        return level;
+    }
 
-	public static void setLevel(Level level) {
-		Screen.level = level;
-	}
+    public static void setLevel(Level level) {
+        Screen.level = level;
+    }
 
 }

@@ -15,58 +15,58 @@ import static Main.Clock.*;
  */
 public class Wave {
 
-	private float timeSinceLastSpawn;
-	private float spawnTime;
-	private int enemiesPerWave;
-	private Enemy enemyType;
-	private ArrayList<Enemy> enemyList;
-	private boolean allEnemiesDead;
+    private float timeSinceLastSpawn;
+    private float spawnTime;
+    private int enemiesPerWave;
+    private Enemy enemyType;
+    private ArrayList<Enemy> enemyList;
+    private boolean allEnemiesDead;
 
-	public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave) {
-		this.enemyType = enemyType;
-		this.spawnTime = spawnTime;
-		this.enemiesPerWave = enemiesPerWave;
-		this.timeSinceLastSpawn = 0;
-		this.enemyList = new ArrayList<Enemy>();
-		this.allEnemiesDead = false;
+    public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave) {
+        this.enemyType = enemyType;
+        this.spawnTime = spawnTime;
+        this.enemiesPerWave = enemiesPerWave;
+        this.timeSinceLastSpawn = 0;
+        this.enemyList = new ArrayList<Enemy>();
+        this.allEnemiesDead = false;
 
-		spawn();
-	}
+        spawn();
+    }
 
-	public void update() {
+    public void update() {
 
-		if (enemyList.size() < enemiesPerWave) {
-			timeSinceLastSpawn += Delta();
-			if (timeSinceLastSpawn > spawnTime) {
-				spawn();
-				timeSinceLastSpawn = 0;
-			}
-		} else {
-			allEnemiesDead = true;
-		}
-		for (Enemy e : enemyList) {
-			if (e.isAlive()) {
-				allEnemiesDead = false;
-				e.draw();
-				e.update();
-			} else {
-				e = null;
-			}
-		}
-	}
+        if (enemyList.size() < enemiesPerWave) {
+            timeSinceLastSpawn += Delta();
+            if (timeSinceLastSpawn > spawnTime) {
+                spawn();
+                timeSinceLastSpawn = 0;
+            }
+        } else {
+            allEnemiesDead = true;
+        }
+        for (Enemy e : enemyList) {
+            if (e.isAlive()) {
+                allEnemiesDead = false;
+                e.draw();
+                e.update();
+            } else {
+                e = null;
+            }
+        }
+    }
 
-	private void spawn() {
-		enemyList.add(new Enemy(enemyType.getTexture(), enemyType
-				.getStartTile(), enemyType.getLevel(), enemyType.getWidth(),
-				enemyType.getHeight(), enemyType.getHealth(), enemyType
-						.getSpeed()));
-	}
+    private void spawn() {
+        enemyList.add(new Enemy(enemyType.getTexture(), enemyType
+                .getStartTile(), enemyType.getLevel(), enemyType.getWidth(),
+                enemyType.getHeight(), enemyType.getHealth(), enemyType
+                .getSpeed()));
+    }
 
-	public boolean getAllEnemiesDead() {
-		return allEnemiesDead;
-	}
+    public boolean getAllEnemiesDead() {
+        return allEnemiesDead;
+    }
 
-	public ArrayList<Enemy> getEnemyList() {
-		return enemyList;
-	}
+    public ArrayList<Enemy> getEnemyList() {
+        return enemyList;
+    }
 }

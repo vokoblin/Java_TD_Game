@@ -12,21 +12,22 @@ import Gfx.Frame;
  * @author Vovaxs
  */
 public class StateManager {
-    
+
     public static enum GameState {
+
         MAINMENU, GAME, LEVELEDITOR
     }
-    
+
     public static GameState gameState = GameState.MAINMENU;
     public static MainMenu mainMenu;
     public static Game game;
     //public static Frame frame = new Frame(game);
     public static LevelEditor editor;
-    
-    public static void update(Frame frame){
-        switch(gameState){
+
+    public static void update(Frame frame) {
+        switch (gameState) {
             case MAINMENU:
-                if(mainMenu == null){
+                if (mainMenu == null) {
                     mainMenu = new MainMenu(frame);
                 }
                 mainMenu.update();
@@ -35,16 +36,16 @@ public class StateManager {
                 Frame.getScreen().drawScene();
                 break;
             case LEVELEDITOR:
-                if(editor == null){
+                if (editor == null) {
                     editor = new LevelEditor();
                 }
                 editor.update();
                 break;
-                
+
         }
     }
-    
-    public static void setState(GameState newState){
+
+    public static void setState(GameState newState) {
         gameState = newState;
     }
 }

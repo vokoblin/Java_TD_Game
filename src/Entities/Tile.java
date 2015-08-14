@@ -15,8 +15,8 @@ import Gfx.Frame;
  *
  * @author Vovaxs
  */
-public class Tile
-{
+public class Tile {
+
     private float x;
     private float y;
     private float width;
@@ -27,9 +27,8 @@ public class Tile
     private String angleID;
     private int[] types;
     private boolean isBuildable;
-    
-    public Tile(int x, int y, int width, int height, TileType type)
-    {
+
+    public Tile(int x, int y, int width, int height, TileType type) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -45,9 +44,8 @@ public class Tile
         this.angleID = "0";
         this.isBuildable = type.isBuildable();
     }
-    
-    public Tile(int x, int y, int width, int height, TileType type, String angleID)
-    {
+
+    public Tile(int x, int y, int width, int height, TileType type, String angleID) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -62,40 +60,37 @@ public class Tile
         this.types[3] = 270;
         this.angleID = angleID;
         this.isBuildable = type.isBuildable();
-        
+
     }
-    
+
     public boolean isBuildable() {
-		return isBuildable;
-	}
-
-	public void setBuildable(boolean isBuildable) {
-		this.isBuildable = isBuildable;
-	}
-
-	public void draw()
-    {
-    	drawRotatableRectTexture(texture, x * SCALE, y * SCALE, width * SCALE, height * SCALE, types[Integer.parseInt(angleID)]);
+        return isBuildable;
     }
-    
+
+    public void setBuildable(boolean isBuildable) {
+        this.isBuildable = isBuildable;
+    }
+
+    public void draw() {
+        drawRotatableRectTexture(texture, x * SCALE, y * SCALE, width * SCALE, height * SCALE, types[Integer.parseInt(angleID)]);
+    }
+
     public float getX() {
         return x;
     }
-    
-    public int getXPos()
-    {
+
+    public int getXPos() {
         return (int) x / 32;
     }
-    
+
     public void setX(float x) {
         this.x = x;
     }
-    
-    public int getYPos()
-    {
+
+    public int getYPos() {
         return (int) y / 32;
     }
-    
+
     public float getY() {
         return y;
     }
@@ -136,11 +131,11 @@ public class Tile
         this.type = type;
     }
 
-	public String getAngleID() {
-		return angleID;
-	}
+    public String getAngleID() {
+        return angleID;
+    }
 
-	public void setAngleID(String angleID) {
-		this.angleID = angleID;
-	}
+    public void setAngleID(String angleID) {
+        this.angleID = angleID;
+    }
 }

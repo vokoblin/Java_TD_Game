@@ -13,14 +13,15 @@ import org.newdawn.slick.opengl.Texture;
  * @author Vovaxs
  */
 class Button {
+
     private String name;
     private Texture texture;
     private int x;
     private int y;
     private int width;
     private int height;
-    
-    public Button(String name, Texture texture, int x, int y, int width, int height){
+
+    public Button(String name, Texture texture, int x, int y, int width, int height) {
         this.name = name;
         this.texture = texture;
         this.x = x;
@@ -28,8 +29,8 @@ class Button {
         this.width = width;
         this.height = height;
     }
-    
-    public Button(String name, Texture texture, int x, int y){
+
+    public Button(String name, Texture texture, int x, int y) {
         this.name = name;
         this.texture = texture;
         this.x = x;
@@ -85,6 +86,5 @@ class Button {
     public void setHeight(int height) {
         this.height = height;
     }
-    
-    
+
 }

@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author Vovaxs
  */
 public class Cartographer {
-    
+
     private static String DEFAULT_FILE_PATH;
 
     public static String getDEFAULT_FILE_PATH() {
@@ -31,16 +31,16 @@ public class Cartographer {
     public static void setDEFAULT_FILE_PATH(String DEFAULT_FILE_PATH) {
         Cartographer.DEFAULT_FILE_PATH = DEFAULT_FILE_PATH;
     }
-    
-    public static void saveMap(String mapName, Level map){
+
+    public static void saveMap(String mapName, Level map) {
         String mapData = "";
-        for(int i = 0; i < map.getMapWidth(); i++){
-            for(int j = 0; j < map.getMapHeight(); j++){
+        for (int i = 0; i < map.getMapWidth(); i++) {
+            for (int j = 0; j < map.getMapHeight(); j++) {
                 mapData += TileType.extractTileID(map.getTile(i, j));
                 mapData += map.getTile(i, j).getAngleID();
             }
         }
-        
+
         try {
             File file = new File(DEFAULT_FILE_PATH + mapName);
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -51,18 +51,18 @@ public class Cartographer {
             Logger.getLogger(Cartographer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
-    
-    public static Level loadMap(String mapName){
+
+    public static Level loadMap(String mapName) {
         Level map = new Level();
-        try{
+        try {
             BufferedReader br = new BufferedReader(new FileReader(DEFAULT_FILE_PATH + mapName));
             String data = br.readLine();
-            for(int i = 0, x = 0; x < map.getMapWidth(); i+=2, x++){
-                for(int j = 0, y = 0; y < map.getMapHeight(); j+=2, y++){
-                	map.setTile(x, y, TileType.extractTileType(data.substring((x * 2) * map.getMapHeight() + (y * 2), (x * 2) * map.getMapHeight() + (y * 2) + 1 )), data.substring((x * 2) * map.getMapHeight() + (y * 2) + 1, (x * 2 ) * map.getMapHeight() + (y * 2) + 2 ));
+            for (int i = 0, x = 0; x < map.getMapWidth(); i += 2, x++) {
+                for (int j = 0, y = 0; y < map.getMapHeight(); j += 2, y++) {
+                    map.setTile(x, y, TileType.extractTileType(data.substring((x * 2) * map.getMapHeight() + (y * 2), (x * 2) * map.getMapHeight() + (y * 2) + 1)), data.substring((x * 2) * map.getMapHeight() + (y * 2) + 1, (x * 2) * map.getMapHeight() + (y * 2) + 2));
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return map;
