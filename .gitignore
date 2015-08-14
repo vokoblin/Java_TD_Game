@@ -1,3 +1,11 @@
+build/*
+dist/*
+lib/*
+nbproject/*
+build.xml
+manifest.mf
+README.md
+
 *.class
 
 # Mobile Tools for Java (J2ME)
