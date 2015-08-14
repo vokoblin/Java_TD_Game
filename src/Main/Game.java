@@ -32,7 +32,7 @@ public final class Game implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public void run() { //TODO: cange everything using MVC structure!
 		Frame frame = new Frame(this);
 		
 		// R,G,B,A Set The Color To Black One Time Only
