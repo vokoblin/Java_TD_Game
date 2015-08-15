@@ -9,7 +9,7 @@ import Entities.Enemy;
 
 /**
  *
- * @author Vovaxs
+ * @author Whinggggggggggggg
  */
 public class WaveManager {
 
