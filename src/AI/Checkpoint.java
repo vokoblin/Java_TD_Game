@@ -9,7 +9,7 @@ import Entities.Tile;
 
 /**
  *
- * @author Ricosyy
+ * @author Vovaxs
  */
 public class Checkpoint {
 
