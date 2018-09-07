@@ -1,11 +1,12 @@
 build/*
 dist/*
-lib/*
+libs/*
 nbproject/*
 build.xml
 manifest.mf
 README.md
-src/res/*
+res/*
+maps/*
 
 *.class
 
@@ -23,3 +24,6 @@ src/res/*
 hs_err_pid*
 
 nbproject/private/private.properties
+/bin/
+.classpath
+.project
